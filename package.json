@@ -1,0 +1,24 @@
+{
+  "name": "skyweather",
+  "version": "1.0.0",
+  "description": "SkyWeather - pogoda w twoim mieście",
+  "main": "index.html",
+  "scripts": {
+    "start": "parcel index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kamil0002/SkyWeather.git"
+  },
+  "author": "Kamil",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kamil0002/SkyWeather/issues"
+  },
+  "homepage": "https://github.com/kamil0002/SkyWeather#readme",
+  "devDependencies": {
+    "@parcel/transformer-sass": "^2.0.0-beta.3.1",
+    "parcel": "^2.0.0-beta.3.1",
+    "sass": "^1.35.1"
+  },
+}
