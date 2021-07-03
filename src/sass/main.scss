@@ -1,0 +1,142 @@
+$color-primary: #fff;
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap');
+
+::placeholder {
+  color: $color-primary;
+  transition: opacity 0.2s;
+  font-size: 2vw;
+}
+
+::selection {
+  background-color: rgba(70, 90, 95, 0.7);
+}
+
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+body {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+  color: $color-primary;
+  background: linear-gradient(
+    116.82deg,
+    rgba(160, 208, 215, 0.67) 0%,
+    rgba(186, 227, 227, 0.5) 100%
+  );
+}
+
+html {
+  font-size: 62.5%;
+  width: 100%;
+  height: 100%;
+}
+
+#bg-overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    100% 212.57% at 0% 1.02%,
+    rgba(255, 255, 255, 0.42) 0%,
+    rgba(255, 255, 255, 0.06) 100%
+  );
+  backdrop-filter: blur(12px);
+}
+
+header {
+  padding-top: 20rem;
+
+  .recently-searched {
+    position: fixed;
+    top: 2%;
+    left: 2%;
+    font-size: 2.7rem;
+
+    &__button {
+      outline: none;
+      border: none;
+      background-color: transparent;
+      cursor: pointer;
+      margin-left: 0.5rem;
+    }
+
+    ul {
+      list-style: none;
+      font-size: 2rem;
+    }
+  }
+
+  .search {
+    width: 75vw;
+    margin: 0 auto;
+    display: flex;
+    position: relative;
+
+    &__input {
+      width: inherit;
+      color: inherit;
+      font-size: 2vw;
+      padding: 0 6rem;
+      height: 5vw;
+      min-height: 7rem;
+      margin: 0 auto;
+      outline: none;
+      border: none;
+      background: #a0d0d7;
+      border-radius: 100px;
+
+      &:focus::placeholder {
+        opacity: 0;
+      }
+    }
+
+    &__btn {
+      min-width: 10rem;
+      width: 20vw;
+      color: inherit;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      outline: none;
+      border: none;
+      border-radius: 100px;
+      background-color: #a5e2e2;
+      font-size: 2.2vw;
+      cursor: pointer;
+      transition: transform 0.3s;
+
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+
+    &__icon {
+      width: 2.9vw;
+      height: 2.9vw;
+      min-width: 3.7rem;
+      min-height: 3.7rem;
+      margin-right: 2.5rem;
+      background-image: url('../images/search-icon.svg');
+      background-position: center;
+      background-size: cover;
+    }
+  }
+}
