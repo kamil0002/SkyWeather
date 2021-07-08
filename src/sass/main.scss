@@ -1,11 +1,13 @@
 $color-primary: #fff;
+$grid-gap: 4rem;
 
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap');
+@import 'queries';
 
 ::placeholder {
   color: $color-primary;
   transition: opacity 0.2s;
-  font-size: 2vw;
+  font-size: 1.8vw;
 }
 
 ::selection {
@@ -30,8 +32,8 @@ body {
   color: $color-primary;
   background: linear-gradient(
     116.82deg,
-    rgba(160, 208, 215, 0.67) 0%,
-    rgba(186, 227, 227, 0.5) 100%
+    rgba(135, 193, 201, 0.67) 0%,
+    rgba(184, 232, 232, 0.5) 100%
   );
 }
 
@@ -39,6 +41,10 @@ html {
   font-size: 62.5%;
   width: 100%;
   height: 100%;
+}
+
+.hidden {
+  opacity: 0;
 }
 
 #bg-overlay {
@@ -58,85 +64,558 @@ html {
 }
 
 header {
-  padding-top: 20rem;
+  padding-top: 25rem;
+  display: none;
+}
 
-  .recently-searched {
-    position: fixed;
-    top: 2%;
-    left: 2%;
-    font-size: 2.7rem;
+.recently-searched {
+  position: fixed;
+  top: 2%;
+  left: 2%;
+  font-size: 2.5rem;
 
-    &__button {
-      outline: none;
-      border: none;
-      background-color: transparent;
-      cursor: pointer;
-      margin-left: 0.5rem;
+  &__heading {
+    display: grid;
+    align-items: center;
+  }
+
+  &__list {
+    list-style: none;
+    font-size: 2.1rem;
+    transition: all 0.6s;
+    transform: translateY(0);
+
+    &--moved {
+      transform: translateY(-25%);
     }
 
-    ul {
-      list-style: none;
-      font-size: 2rem;
+    & li {
+      transition: all .5s;
+      padding-left: .5rem;
+    }
+
+    & li a:link,
+    & li a:visited {
+      text-decoration: none;
+      color: inherit;
+    }
+
+
+    & li:hover {
+      background-color:rgba(135, 193, 201, 0.5);
+      transform: scale(1.02);
     }
   }
 
-  .search {
-    width: 75vw;
+  @include respond(tab-land) {
+    font-size: 2.3rem;
+    top: 1.5%;
+    left: 1.5%;
+  }
+
+  @include respond(tab-port) {
+    display: none;
+  }
+
+  &__button {
+    transform: translateY(12%);
+    outline: none;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    position: absolute;
+    right: -12%;
+  }
+}
+
+
+.search {
+  width: 66vw;
+  margin: 0 auto;
+  display: flex;
+  position: relative;
+
+  &__input {
+    width: inherit;
+    color: inherit;
+    font-size: 1.8vw;
+    padding: 0 6rem;
+    height: 5vw;
+    min-height: 7rem;
     margin: 0 auto;
+    outline: none;
+    border: none;
+    background: #a0d0d7;
+    border-radius: 100px;
+
+    &:focus::placeholder {
+      opacity: 0;
+    }
+  }
+
+  &__btn {
+    min-width: 10rem;
+    width: 20vw;
+    color: inherit;
     display: flex;
-    position: relative;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    outline: none;
+    border: none;
+    border-radius: 100px;
+    background-color: #a5e2e2;
+    font-size: 2.2vw;
+    cursor: pointer;
+    transition: transform 0.3s;
 
-    &__input {
-      width: inherit;
-      color: inherit;
-      font-size: 2vw;
-      padding: 0 6rem;
-      height: 5vw;
-      min-height: 7rem;
-      margin: 0 auto;
-      outline: none;
-      border: none;
-      background: #a0d0d7;
-      border-radius: 100px;
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
 
-      &:focus::placeholder {
-        opacity: 0;
-      }
+  &__icon {
+    width: 2.9vw;
+    height: 2.9vw;
+    min-width: 3.7rem;
+    min-height: 3.7rem;
+    margin-right: 2.5rem;
+    background-image: url('../images/search-icon.svg');
+    background-position: center;
+    background-size: cover;
+  }
+}
+
+/////////////////////////////////////////////////////////////////////
+// FORECAST
+
+.forecast {
+  &__desktop {
+    @include respond(phone) {
+      display: none;
+    }
+  }
+
+  .location {
+    font-size: 6rem;
+    padding-top: 0.5rem;
+    text-align: center;
+
+    @include respond(tab-land) {
+      padding-top: 2.5rem;
+      font-size: 4.5rem;
     }
 
-    &__btn {
-      min-width: 10rem;
-      width: 20vw;
-      color: inherit;
+    @include respond(phone) {
+      font-size: 3rem;
+    }
+  }
+
+  &__change-location {
+    width: 5rem;
+    height: 5rem;
+    background-image: url('../images/search-icon-forecast.svg');
+    background-size: cover;
+    background-position: center;
+    position: fixed;
+    top: 1%;
+    right: 1%;
+    cursor: pointer;
+
+    @include respond(phone) {
+      top: 1.2%;
+      right: 1.2%;
+      width: 4rem;
+      height: 4rem;
+    }
+  }
+}
+
+.today-forecast {
+  background: rgba(163, 204, 214, 0.35);
+  border-radius: 4rem;
+  max-width: 70%;
+  margin: 0 auto;
+  margin-top: 1.5rem;
+  font-size: 1.7vw;
+
+
+  @include respond(tab-port) {
+    max-width: 100%;
+    border-radius: 0;
+    font-size: 1.8rem;
+  }
+
+  @include respond(phone) {
+    font-size: 2rem;
+  }
+
+  &__date {
+    font-size: 2.5vw;
+    letter-spacing: 0.15rem;
+    text-align: center;
+    padding-top: 2rem;
+
+    @include respond(tab-port) {
+      font-size: 3rem;
+    }
+  }
+
+  &__clock {
+    text-align: center;
+    font-size: 2.5vw;
+    padding: 1rem 0;
+
+    @include respond(tab-port) {
+      font-size: 3rem;
+      letter-spacing: 0.15rem;
+    }
+  }
+}
+
+.weather-highlighted-group {
+  padding: 2rem 0;
+
+  @include respond(tab-port) {
+    padding: 3rem 0;
+  }
+
+  @include respond(phone) {
+    display: grid;
+    grid-template-columns: 7fr 0.5fr 7fr;
+    justify-items: center;
+    align-items: center;
+  }
+}
+
+.weather-highlighted {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @include respond(tab-port) {
+    margin-left: 3rem;
+  }
+
+  @include respond(phone) {
+    display: block;
+    grid-column: 2 / 3;
+  }
+
+  div {
+    display: flex;
+    align-items: center;
+
+    // Mobile
+
+    @include respond(phone) {
+      margin-bottom: 2rem;
+
+      &:nth-of-type(2) {
+        display: flex;
+        justify-content: flex-start;
+        margin-bottom: 2.3rem;
+      }
+    }
+  }
+
+  span {
+    margin-left: 1.5rem;
+    margin-right: 3rem;
+    width: 6.6vw;
+    text-align: center;
+
+    @include respond(tab-port) {
+      display: block;
+      width: 5.7rem;
+    }
+
+    @include respond(phone) {
+      margin-left: 1.2rem;
+      margin-right: 2rem;
+      width: auto;
+    }
+  }
+
+  &__weather-icon {
+    width: 5vw;
+    height: 5vw;
+    margin-right: -1vw;
+
+    @include respond(tab-port) {
+      width: 5rem;
+      height: 5rem;
+    }
+
+    @include respond(phone) {
+      width: 6rem;
+      height: 6rem;
+      margin-left: -1.1rem;
+    }
+  }
+
+  &__weather-icon-drop {
+    width: 3.4vw;
+    height: 3.4vw;
+
+    @include respond(tab-port) {
+      width: 3.5rem;
+      height: 3.5rem;
+    }
+
+    @include respond(phone) {
+      width: 3rem;
+      height: 3rem;
+    }
+  }
+
+  &__weather-icon-wind {
+    width: 3.7vw;
+    height: 3.7vw;
+
+    @include respond(tab-port) {
+      width: 4rem;
+      height: 4rem;
+    }
+
+    @include respond(phone) {
+      width: 3.2rem;
+      height: 3.2rem;
+    }
+  }
+
+  &__weather-icon-humidity {
+    width: 3.8vw;
+    height: 3.4vw;
+
+    @include respond(tab-port) {
+      width: 3.7rem;
+      height: 3.5rem;
+    }
+
+    @include respond(phone) {
+      width: 3.2rem;
+      height: 3rem;
+    }
+  }
+
+  &--day {
+    grid-row: 1 / 2;
+    grid-column: 1 / 2;
+  }
+
+  &--night {
+    margin-top: 3.2rem;
+    grid-column: 3 / 4;
+
+    @include respond(phone) {
+      margin: 0;
       display: flex;
-      justify-content: center;
-      align-items: center;
-      position: absolute;
-      right: 0;
-      top: 0;
-      bottom: 0;
-      outline: none;
-      border: none;
-      border-radius: 100px;
-      background-color: #a5e2e2;
-      font-size: 2.2vw;
-      cursor: pointer;
-      transition: transform 0.3s;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+}
 
-      &:hover {
-        transform: scale(1.05);
+.wrapper {
+  width: 85vw;
+  margin: 0 auto;
+}
+
+.grid-container {
+  margin: 0 10rem;
+  margin-top: 6rem;
+  padding-bottom: 3.5rem;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(26.2rem, 29.6rem));
+  grid-template-rows: repeat(2, minmax(16.8rem, 19.3rem));
+  grid-auto-flow: row;
+  grid-gap: $grid-gap;
+  justify-content: center;
+
+  @include respond(tab-land) {
+    grid-template-columns: repeat(3, minmax(26rem, 29.4rem));
+    grid-template-rows: repeat(3, minmax(16.4rem, 19rem));
+  }
+
+  @include respond(tab-port) {
+    grid-template-columns: repeat(2, minmax(24.2rem, 29.4rem));
+    grid-template-rows: repeat(4, minmax(14.4rem, 17.5rem));
+  }
+
+  &__day {
+    background-color: #a5e2e2;
+    width: 100%;
+    height: 100%;
+    border-radius: 3.2rem;
+    display: flex;
+    justify-content: center;
+
+    &:nth-of-type(1) {
+      border: 5px solid $color-primary;
+    }
+
+    &:nth-of-type(8),
+    &:nth-of-type(7) {
+      @include respond(tab-land) {
+        transform: translateX(calc(50% + #{$grid-gap} / 2));
+      }
+
+      @include respond(tab-port) {
+        transform: translateX(0);
       }
     }
 
-    &__icon {
-      width: 2.9vw;
-      height: 2.9vw;
-      min-width: 3.7rem;
-      min-height: 3.7rem;
-      margin-right: 2.5rem;
-      background-image: url('../images/search-icon.svg');
-      background-position: center;
-      background-size: cover;
+    &__weather {
+      width: 94%;
+      height: 95%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin-left: -1rem;
+      align-items: center;
     }
+
+    &__weather__row {
+      width: inherit;
+      height: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 1.9rem;
+
+      &__date {
+        width: 100%;
+        text-align: center;
+        font-size: 2.3rem;
+        padding-top: 1rem;
+      }
+
+      span {
+        display: block;
+        margin-left: -1.9rem;
+        width: 5.4rem;
+        text-align: center;
+      }
+
+      img {
+        // width: 35.5%;
+        // height:100%;
+        width: 5rem;
+        height: 5rem;
+
+        @include respond(tab-port) {
+          margin-right: 0.7rem;
+        }
+
+        &:nth-of-type(2) {
+          width: 3rem;
+          height: 3rem;
+        }
+      }
+    }
+  }
+}
+
+////////////////////////////////////////////
+// FORECAST PHONE
+
+.forecast__mobile {
+  display: none;
+  margin-top: 8rem;
+
+  @include respond(phone) {
+    .forecast__mobile {
+      width: 100%;
+
+      &__day {
+        padding: 2rem 2rem;
+        background-color: #a5e2e2;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 1.6rem;
+
+        &:first-child {
+          border-top: 3px solid $color-primary;
+          border-bottom: 3px solid $color-primary;
+        }
+
+        &:not(:last-child) {
+          margin-bottom: 3rem;
+        }
+      }
+
+      &__date {
+        font-size: 1.8rem;
+      }
+
+      &__drop-pred {
+        display: flex;
+        align-items: center;
+        width: 2.7rem;
+        height: 2.7rem;
+
+        @include respond(small-phone) {
+          display: none;
+        }
+
+        &-icon {
+          width: inherit;
+          height: inherit;
+          margin-right: 2vw;
+        }
+      }
+
+      &__weather-icons {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 7.5rem;
+
+        &-separator {
+          width: 3px;
+          height: 25px;
+          border-radius: 5px;
+          transform: rotateZ(20deg);
+          background: $color-primary;
+        }
+      }
+
+      &__weather {
+        width: 3rem;
+        height: 3rem;
+        &-icon {
+          width: inherit;
+          height: inherit;
+        }
+      }
+
+      &__degree-container {
+        display: flex;
+        width: 11.5rem;
+        justify-content: space-between;
+      }
+    }
+    display: block;
+  }
+}
+
+
+@keyframes higlightLoc {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

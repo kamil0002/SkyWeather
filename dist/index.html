@@ -1,35 +1,165 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" href="/favicon-32x32.9d7abb5b.png">
-  <title>BlueWeather - pogoda w twoim mieście</title>
-  <link rel="stylesheet" href="/index.76ad814c.css">
-</head>
-<body>
-  <div id="bg-overlay"></div>
-  <header>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/favicon-32x32.9d7abb5b.png">
+    <title>SkyWeather - pogoda w twoim mieście</title>
+    <link rel="stylesheet" href="/index.ac2f0f54.css">
+    <script defer="" src="/index.fd92a775.js"></script>
+  </head>
+  <body>
     <div class="recently-searched">
-      <h5>Ostatnio wyszukiwane</h5>
-      <ul>
-        <li>Strzyżów
-          <button class="recently-searched__button">
-            <img src="/arrow-down.906c5432.svg" alt="Pokaz wiecej lokacji">
-          </button>
-        </li>
+      <div class="recently-searched__heading">
+        <h5>Ostatnio wyszukiwane</h5>
+        <button class="recently-searched__button">
+          <img src="/arrow-down.906c5432.svg" alt="Ostatnio wyszukiwane lokalizacje">
+        </button>
+      </div>   
+      <ul class="hidden recently-searched__list recently-searched__list--moved">
+        <li><a href="">Rzeszów</a></li>
+        <li><a href="">Ropczyce</a></li>
+        <li><a href="">Gdańsk</a></li>
       </ul>
     </div>
+    <div id="bg-overlay"></div>
+    <header>
+      <form class="search">
+        <input id="location" type="text" class="search__input" placeholder="Wpisz miejscowość, np. Rzeszów, Strzyżów">
+        <button class="search__btn">
+          <span class="search__icon"></span>
+          Szukaj
+        </button>
+      </form>
+    </header>
 
-    <form class="search">
-      <input id="location" type="text" class="search__input" placeholder="Wpisz miejscowość, np. Rzeszów, Strzyżów">
-      <button class="search__btn">
-        <span class="search__icon"></span>
-        Szukaj
-      </button>
-    </form>
-  </header>
+    <section class="forecast">
+      <div class="forecast__change-location"></div>
+      <h1 class="location">Rzeszów</h1>
+      <div class="today-forecast">
+        <div class="today-forecast__date">Sobota, 22.05</div>
+        <div class="today-forecast__clock">23:33:06</div>
+        <div class="weather-highlighted-group">
+          <!-- DAY -->
+          <div class="weather-highlighted weather-highlighted--day">
+            <div>
+              <img class="weather-highlighted__weather-icon" src="/cloudy%20day.38a9f8c5.png" alt="weather icon">
+              <span>24 &deg;C</span>
+            </div>
 
-</body>
-</html><script src="/index.3ebff041.js"></script>
+            <div class="weather-highlighted__weather-rain">
+              <img class="weather-highlighted__weather-icon-drop" src="/drop.57b56714.png" alt="drop prediction">
+              <span>7%</span>
+            </div>
+
+            <div class="weather-highlighted__weather-wind">
+              <img class="weather-highlighted__weather-icon-wind" src="/wind.1695a82a.png" alt="wind-icon">
+              <span>3km/h</span>
+            </div>
+
+            <div class="weather-highlighted__weather-humidity">
+              <img class="weather-highlighted__weather-icon-humidity" src="/humidity.678f22a8.png" alt="humidity-icon">
+              <span>48%</span>
+            </div>
+          </div>
+
+          <!-- NIGHT -->
+          <!-- <div class="weather-highlighted weather-highlighted--night">
+            <div>
+              <img
+                class="weather-highlighted__weather-icon"
+                src="src/images/weather-icons/cloudy night.png"
+                alt="weather icon"
+              />
+              <span>15 &deg;C</span>
+            </div>
+
+            <div class="weather-highlighted__weather-rain">
+              <img
+                class="weather-highlighted__weather-icon-drop"
+                src="src/images/weather-icons/drop.png"
+                alt="drop prediction"
+              />
+              <span>43%</span>
+            </div>
+
+            <div class="weather-highlighted__weather-wind">
+              <img
+                class="weather-highlighted__weather-icon-wind"
+                src="src/images/weather-icons/wind.png"
+                alt="wind-icon"
+              />
+              <span>12km/h</span>
+            </div>
+
+            <div class="weather-highlighted__weather-humidity">
+              <img
+                class="weather-highlighted__weather-icon-humidity"
+                src="src/images//weather-icons/humidity.png"
+                alt="humidity-icon"
+              />
+              <span>42%</span>
+            </div>
+          </div> -->
+        </div>
+      </div>
+
+      <div class="wrapper forecast__desktop">
+        <div class="grid-container">
+          <div class="grid-container__day">
+            <div class="grid-container__day__weather">
+              <h3 class="grid-container__day__weather__row__date">
+                Sob. 22.05
+              </h3>
+              <div class="grid-container__day__weather__row">
+                <img src="/cloudy%20day.38a9f8c5.png" alt="claudy-day">
+                <span>15 &deg;C</span>
+                <img class="weather-highlighted__weather-icon-drop" src="/drop.57b56714.png" alt="drop prediction">
+                <span>43%</span>
+              </div>
+              <div class="grid-container__day__weather__row">
+                <img src="/cloudy%20night.b9193659.png" alt="claudy-night">
+                <span>3 &deg;C</span>
+                <img class="weather-highlighted__weather-icon-drop" src="/drop.57b56714.png" alt="drop prediction">
+                <span>3%</span>
+              </div>
+            </div>
+          </div>
+          <div class="grid-container__day"></div>
+          <div class="grid-container__day"></div>
+          <div class="grid-container__day"></div>
+          <div class="grid-container__day"></div>
+          <div class="grid-container__day"></div>
+          <div class="grid-container__day"></div>
+          <div class="grid-container__day"></div>
+        </div>
+      </div>
+
+      <div class="forecast__mobile">
+        <div class="forecast__mobile__day">
+          <div class="forecast__mobile__date">Sobota</div>
+          <div class="forecast__mobile__drop-pred">
+            <img class="forecast__mobile__drop-pred-icon" src="/drop.57b56714.png" alt="drop prediction">
+            <span>7%</span>
+          </div>
+          <div class="forecast__mobile__weather-icons">
+            <div class="forecast__mobile__weather">
+              <img class="forecast__mobile__weather-icon" src="/cloudy%20day.38a9f8c5.png" alt="weather icon">
+            </div>
+            <span class="forecast__mobile__weather-icons-separator"></span>
+            <div class="forecast__mobile__weather">
+              <img class="forecast__mobile__weather-icon" src="/cloudy%20night.b9193659.png" alt="weather icon">
+            </div>
+          </div>
+          <div class="forecast__mobile__degree-container">
+            <span class="forecast__mobile__degree">15 &deg;C</span>
+            <span class="forecast__mobile__weather-icons-separator"></span>
+            <span class="forecast__mobile__degree">24 &deg;C</span>
+          </div>
+        </div>
+        
+      </div>
+    </section>
+  </body>
+</html>
