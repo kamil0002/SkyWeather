@@ -267,11 +267,15 @@ header {
   &__clock {
     text-align: center;
     font-size: 2.5vw;
-    padding: 1rem 0;
+    padding: .5rem 0;
 
     @include respond(tab-port) {
       font-size: 3rem;
       letter-spacing: 0.15rem;
+    }
+
+    @include respond(small-phone) {
+      font-size: 2rem;
     }
   }
 }
