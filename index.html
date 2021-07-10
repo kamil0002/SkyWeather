@@ -14,9 +14,12 @@
       <div class="recently-searched__heading">
         <h5>Ostatnio wyszukiwane</h5>
         <button class="recently-searched__button">
-          <img src="/src/images/arrow-down.svg" alt="Ostatnio wyszukiwane lokalizacje" />
+          <img
+            src="/src/images/arrow-down.svg"
+            alt="Ostatnio wyszukiwane lokalizacje"
+          />
         </button>
-      </div>   
+      </div>
       <ul class="hidden recently-searched__list recently-searched__list--moved">
         <li><a href="">Rzeszów</a></li>
         <li><a href="">Ropczyce</a></li>
@@ -41,101 +44,79 @@
 
     <section class="forecast">
       <div class="forecast__change-location"></div>
-      <h1 class="location">Rzeszów</h1>
-      <div class="today-forecast">
-        <div class="today-forecast__date">Sobota, 22.05</div>
-        <div class="today-forecast__clock">23:33:06</div>
-        <div class="weather-highlighted-group">
-          <!-- DAY -->
-          <div class="weather-highlighted weather-highlighted--day">
-            <div>
-              <img
-                class="weather-highlighted__weather-icon"
-                src="src/images/weather-icons/cloudy day.png"
-                alt="weather icon"
-              />
-              <span>24 &deg;C</span>
-            </div>
-
-            <div class="weather-highlighted__weather-rain">
-              <img
-                class="weather-highlighted__weather-icon-drop"
-                src="src/images/weather-icons/drop.png"
-                alt="drop prediction"
-              />
-              <span>7%</span>
-            </div>
-
-            <div class="weather-highlighted__weather-wind">
-              <img
-                class="weather-highlighted__weather-icon-wind"
-                src="src/images/weather-icons/wind.png"
-                alt="wind-icon"
-              />
-              <span>3km/h</span>
-            </div>
-
-            <div class="weather-highlighted__weather-humidity">
-              <img
-                class="weather-highlighted__weather-icon-humidity"
-                src="src/images//weather-icons/humidity.png"
-                alt="humidity-icon"
-              />
-              <span>48%</span>
+      <div class="forecast__highlighted">
+        <!-- <h1 class="location">Rzeszów</h1>
+        <div class="today-forecast">
+          <div class="today-forecast__date">Sobota, 22.05</div>
+          <div class="today-forecast__clock">23:33:06</div>
+          <div class="weather-highlighted-group">
+            <div class="weather-highlighted weather-highlighted--day">
+              <div>
+                <img
+                  class="weather-highlighted__weather-icon"
+                  src="src/images/weather-icons/cloudyD.png"
+                  alt="weather icon"
+                />
+                <span class="cur-temp">24 &deg;C</span>
+              </div>
+  
+              <div class="weather-highlighted__weather-rain">
+                <img
+                  class="weather-highlighted__weather-icon-drop"
+                  src="src/images/weather-icons/drop.png"
+                  alt="drop prediction"
+                />
+                <span class="cur-rain">7%</span>
+              </div>
+  
+              <div class="weather-highlighted__weather-wind">
+                <img
+                  class="weather-highlighted__weather-icon-wind"
+                  src="src/images/weather-icons/wind.png"
+                  alt="wind-icon"
+                />
+                <span class="cur-wind">3km/h</span>
+              </div>
+  
+              <div class="weather-highlighted__weather-humidity">
+                <img
+                  class="weather-highlighted__weather-icon-humidity"
+                  src="src/images//weather-icons/humidity.png"
+                  alt="humidity-icon"
+                />
+                <span class="cur-humidity">48%</span>
+              </div>
             </div>
           </div>
-
-          <!-- NIGHT -->
-          <!-- <div class="weather-highlighted weather-highlighted--night">
-            <div>
-              <img
-                class="weather-highlighted__weather-icon"
-                src="src/images/weather-icons/cloudy night.png"
-                alt="weather icon"
-              />
-              <span>15 &deg;C</span>
-            </div>
-
-            <div class="weather-highlighted__weather-rain">
-              <img
-                class="weather-highlighted__weather-icon-drop"
-                src="src/images/weather-icons/drop.png"
-                alt="drop prediction"
-              />
-              <span>43%</span>
-            </div>
-
-            <div class="weather-highlighted__weather-wind">
-              <img
-                class="weather-highlighted__weather-icon-wind"
-                src="src/images/weather-icons/wind.png"
-                alt="wind-icon"
-              />
-              <span>12km/h</span>
-            </div>
-
-            <div class="weather-highlighted__weather-humidity">
-              <img
-                class="weather-highlighted__weather-icon-humidity"
-                src="src/images//weather-icons/humidity.png"
-                alt="humidity-icon"
-              />
-              <span>42%</span>
-            </div>
-          </div> -->
-        </div>
+        </div> -->
       </div>
 
       <div class="wrapper forecast__desktop">
         <div class="grid-container">
           <div class="grid-container__day">
+            <span class="overlay overlay--highlighted hidden">
+              <ul class="overlay__data">
+                <li class="overlay__data__humidity">
+                  <img
+                    src="src/images//weather-icons/humidity.png"
+                    alt="humidity-icon"
+                  />43%
+                </li>
+                <li class="overlay__data__wind">
+                  <img
+                    src="src/images/weather-icons/wind.png"
+                    alt="wind-icon"
+                  />43%
+                </li>
+              </ul>
+            </span>
             <div class="grid-container__day__weather">
               <h3 class="grid-container__day__weather__row__date">
                 Sob. 22.05
               </h3>
               <div class="grid-container__day__weather__row">
                 <img
-                  src="./src/images/weather-icons/cloudy day.png"
+                  src="./src/images/weather-icons/cloudyD.png"
                   alt="claudy-day"
                 />
                 <span>15 &deg;C</span>
@@ -148,7 +129,7 @@
               </div>
               <div class="grid-container__day__weather__row">
                 <img
-                  src="./src/images/weather-icons/cloudy night.png"
+                  src="./src/images/weather-icons/cloudyN.png"
                   alt="claudy-night"
                 />
                 <span>3 &deg;C</span>
@@ -173,20 +154,47 @@
 
       <div class="forecast__mobile">
         <div class="forecast__mobile__day">
+          <span class="forecast__mobile__day__data forecast__mobile__day__data--higlighted hidden">
+            <ul>
+              <li>
+                <div class="forecast__mobile__weather-pred">
+                  <img
+                    class="forecast__mobile__weather-pred-icon"
+                    src="src/images/weather-icons/drop.png"
+                    alt="drop prediction"
+                  />
+                  <span>7%</span>
+                </div>
+              </li>
+              <li>
+                <div class="forecast__mobile__weather-pred">
+                  <img
+                    class="forecast__mobile__weather-pred-icon"
+                    src="src/images/weather-icons/wind.png"
+                    alt="drop prediction"
+                  />
+                  <span>7%</span>
+                </div>
+              </li>
+              <li>
+                <div class="forecast__mobile__weather-pred">
+                  <img
+                    class="forecast__mobile__weather-pred-icon"
+                    src="src/images/weather-icons/humidity.png"
+                    alt="drop prediction"
+                  />
+                  <span>7%</span>
+                </div>
+              </li>
+            </ul>
+          </span>
           <div class="forecast__mobile__date">Sobota</div>
-          <div class="forecast__mobile__drop-pred">
-            <img
-              class="forecast__mobile__drop-pred-icon"
-              src="src/images/weather-icons/drop.png"
-              alt="drop prediction"
-            />
-            <span>7%</span>
-          </div>
+         
           <div class="forecast__mobile__weather-icons">
             <div class="forecast__mobile__weather">
               <img
                 class="forecast__mobile__weather-icon"
-                src="src/images/weather-icons/cloudy day.png"
+                src="src/images/weather-icons/cloudyD.png"
                 alt="weather icon"
               />
             </div>
@@ -194,7 +202,7 @@
             <div class="forecast__mobile__weather">
               <img
                 class="forecast__mobile__weather-icon"
-                src="src/images/weather-icons/cloudy night.png"
+                src="src/images/weather-icons/cloudyN.png"
                 alt="weather icon"
               />
             </div>
@@ -205,7 +213,68 @@
             <span class="forecast__mobile__degree">24 &deg;C</span>
           </div>
         </div>
-        
+
+        <!-- DAY 2 -->
+        <div class="forecast__mobile__day">
+          <span class="forecast__mobile__day__data hidden">
+            <ul>
+              <li>
+                <div class="forecast__mobile__weather-pred">
+                  <img
+                    class="forecast__mobile__weather-pred-icon"
+                    src="src/images/weather-icons/drop.png"
+                    alt="drop prediction"
+                  />
+                  <span>7%</span>
+                </div>
+              </li>
+              <li>
+                <div class="forecast__mobile__weather-pred">
+                  <img
+                    class="forecast__mobile__weather-pred-icon"
+                    src="src/images/weather-icons/wind.png"
+                    alt="drop prediction"
+                  />
+                  <span>7%</span>
+                </div>
+              </li>
+              <li>
+                <div class="forecast__mobile__weather-pred">
+                  <img
+                    class="forecast__mobile__weather-pred-icon"
+                    src="src/images/weather-icons/humidity.png"
+                    alt="drop prediction"
+                  />
+                  <span>7%</span>
+                </div>
+              </li>
+            </ul>
+          </span>
+          <div class="forecast__mobile__date">Sobota</div>
+         
+          <div class="forecast__mobile__weather-icons">
+            <div class="forecast__mobile__weather">
+              <img
+                class="forecast__mobile__weather-icon"
+                src="src/images/weather-icons/cloudyD.png"
+                alt="weather icon"
+              />
+            </div>
+            <span class="forecast__mobile__weather-icons-separator"></span>
+            <div class="forecast__mobile__weather">
+              <img
+                class="forecast__mobile__weather-icon"
+                src="src/images/weather-icons/cloudyN.png"
+                alt="weather icon"
+              />
+            </div>
+          </div>
+          <div class="forecast__mobile__degree-container">
+            <span class="forecast__mobile__degree">15 &deg;C</span>
+            <span class="forecast__mobile__weather-icons-separator"></span>
+            <span class="forecast__mobile__degree">24 &deg;C</span>
+          </div>
+        </div>
       </div>
     </section>
   </body>

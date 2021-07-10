@@ -1,23 +1,39 @@
-const API_KEY = '4f34d1cc4cadf343456a32f0c8ddadfb';
+import { API_KEY } from "./config";
 
 export const applicationData = {
   curWeather: {},
-  weather: {}
+  dailyWeather: {}
 };
 
 const createCurrentWeatherData = function(data) {
   return applicationData.curWeather = {
-    curDay: data.current.dt,
-    curTemp: data.current.temp,
-    curRain: Object.values(data.current.rain)[0],
-    curWind: data.current.wind_speed,
+    icon: data.current.weather[0].icon,
+    curDay: convertToDate(data.current.dt),
+    curTemp: convertToCelsius(data.current.temp),
+    // curRain: Object.values(data.current.rain)[0],
+    curRain: data.daily[0].rain.toFixed(1),
+    curWind: data.current.wind_speed.toFixed(1),
     curHumidity: data.current.humidity
   }
 }
 
 const createDailyWeatherData = function(data) {
-  return applicationData.weather = {
-
+  const formattedData = data.daily.map(day => ({
+    icon: day.weather[0].icon,
+    day: convertToDate(day.dt),
+    tempD: convertToCelsius(day.feels_like.day),
+    tempN: convertToCelsius(day.feels_like.night),
+    rain: day.rain ? day.rain : 0,
+    wind: day.wind_speed,
+    humidity: day.humidity,
+    
+  })
+    
+  )
+  console.log(data);
+  console.log(formattedData);
+  return applicationData.dailyWeather = {
+    daily: formattedData
   }
 }
 
@@ -29,6 +45,15 @@ export const loadWeatherData = async function (lat, lon) {
   const data = await res.json();
   console.log(data);
   applicationData.curWeather = createCurrentWeatherData(data);
-
+  applicationData.weather = createDailyWeatherData(data);
 };
+
+const convertToCelsius = K => Math.round(K - 273.15);
+const convertToDate = function(ts) {
+  const date = new Date(ts * 1000)
+  const day = date.getDate();
+  const month = date.getMonth();
+
+  return [{day, month}];
+}
 

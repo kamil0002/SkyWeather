@@ -90,8 +90,8 @@ header {
     }
 
     & li {
-      transition: all .5s;
-      padding-left: .5rem;
+      transition: all 0.5s;
+      padding-left: 0.5rem;
     }
 
     & li a:link,
@@ -100,9 +100,8 @@ header {
       color: inherit;
     }
 
-
     & li:hover {
-      background-color:rgba(135, 193, 201, 0.5);
+      background-color: rgba(135, 193, 201, 0.5);
       transform: scale(1.02);
     }
   }
@@ -118,7 +117,7 @@ header {
   }
 
   &__button {
-    transform: translateY(12%);
+    transform: translateY(50%);
     outline: none;
     border: none;
     background-color: transparent;
@@ -127,7 +126,6 @@ header {
     right: -12%;
   }
 }
-
 
 .search {
   width: 66vw;
@@ -242,7 +240,6 @@ header {
   margin-top: 1.5rem;
   font-size: 1.7vw;
 
-
   @include respond(tab-port) {
     max-width: 100%;
     border-radius: 0;
@@ -267,7 +264,9 @@ header {
   &__clock {
     text-align: center;
     font-size: 2.5vw;
-    padding: .5rem 0;
+    padding: 0.5rem 0;
+    background:rgba(135, 193, 201, 0.67);
+    margin: 2rem 0;
 
     @include respond(tab-port) {
       font-size: 3rem;
@@ -282,9 +281,15 @@ header {
 
 .weather-highlighted-group {
   padding: 2rem 0;
+  transform: translateX(2%);
+
+  @include respond(tab-land) {
+    transform: translateX(3.5%);
+  }
 
   @include respond(tab-port) {
     padding: 3rem 0;
+    transform: translateX(1.5%);
   }
 
   @include respond(phone) {
@@ -329,18 +334,19 @@ header {
   span {
     margin-left: 1.5rem;
     margin-right: 3rem;
-    width: 6.6vw;
-    text-align: center;
+    width: 7.55vw;
+    text-align: left;
+
 
     @include respond(tab-port) {
       display: block;
-      width: 5.7rem;
+      width: 8rem;
     }
 
     @include respond(phone) {
       margin-left: 1.2rem;
       margin-right: 2rem;
-      width: auto;
+      width: 9rem;
     }
   }
 
@@ -405,23 +411,6 @@ header {
       height: 3rem;
     }
   }
-
-  &--day {
-    grid-row: 1 / 2;
-    grid-column: 1 / 2;
-  }
-
-  &--night {
-    margin-top: 3.2rem;
-    grid-column: 3 / 4;
-
-    @include respond(phone) {
-      margin: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-    }
-  }
 }
 
 .wrapper {
@@ -442,21 +431,18 @@ header {
 
   @include respond(tab-land) {
     grid-template-columns: repeat(3, minmax(26rem, 29.4rem));
-    grid-template-rows: repeat(3, minmax(16.4rem, 19rem));
   }
 
   @include respond(tab-port) {
     grid-template-columns: repeat(2, minmax(24.2rem, 29.4rem));
-    grid-template-rows: repeat(4, minmax(14.4rem, 17.5rem));
   }
 
   &__day {
     background-color: #a5e2e2;
-    width: 100%;
-    height: 100%;
     border-radius: 3.2rem;
     display: flex;
     justify-content: center;
+    position: relative;
 
     &:nth-of-type(1) {
       border: 5px solid $color-primary;
@@ -524,6 +510,47 @@ header {
   }
 }
 
+.overlay {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(93, 134, 141, 0.55);
+  border-radius: 3.2rem;
+  display: flex;
+  justify-content: center;
+
+  &--highlighted {
+    border: 5px solid transparent;
+    border-radius: 2.7rem;
+  }
+
+  &__data {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 1.7rem;
+
+    li {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    &__humidity,
+    &__wind {
+      img {
+        width: 4rem;
+        height: 4rem;
+        margin-right: 1rem;
+      }
+    }
+  }
+}
+
 ////////////////////////////////////////////
 // FORECAST PHONE
 
@@ -531,9 +558,12 @@ header {
   display: none;
   margin-top: 8rem;
 
+
   @include respond(phone) {
-    .forecast__mobile {
+    & {
       width: 100%;
+      display: block;
+
 
       &__day {
         padding: 2rem 2rem;
@@ -542,6 +572,8 @@ header {
         align-items: center;
         justify-content: space-between;
         font-size: 1.6rem;
+        position: relative;
+        width: 100%;
 
         &:first-child {
           border-top: 3px solid $color-primary;
@@ -549,7 +581,40 @@ header {
         }
 
         &:not(:last-child) {
-          margin-bottom: 3rem;
+          margin-bottom: 6rem;
+        }
+
+        &__data {
+
+          &--higlighted {
+            transform: translateY(calc(100% + 3px));
+          }
+          
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: inherit;
+          height: 4rem;
+          transform: translateY(100%);
+          background: rgba(140, 202, 202, 0.5);
+          display: flex;
+          justify-content: center;
+
+
+
+          ul {
+            list-style: none;
+            display: flex;
+            justify-content:center;
+            align-items: center;
+            transform: translateX(-13px);
+            
+            li:not(:last-of-type) {
+              margin-right: 6rem;
+            }
+          }
+        }
+
         }
       }
 
@@ -557,15 +622,11 @@ header {
         font-size: 1.8rem;
       }
 
-      &__drop-pred {
+      &__weather-pred {
         display: flex;
         align-items: center;
-        width: 2.7rem;
-        height: 2.7rem;
-
-        @include respond(small-phone) {
-          display: none;
-        }
+        width: 2.5rem;
+        height: 2.5rem;
 
         &-icon {
           width: inherit;
@@ -604,22 +665,4 @@ header {
         justify-content: space-between;
       }
     }
-    display: block;
   }
-}
-
-
-@keyframes higlightLoc {
-  0% {
-    opacity: 0;
-  }
-
-  50% {
-    opacity: 0.5;
-  }
-
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
