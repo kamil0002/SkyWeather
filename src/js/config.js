@@ -1,1 +1,3 @@
-export const API_KEY = '98a83ba738f4626434786937cf7094eb';
+export const WEATHER_API_KEY = '98a83ba738f4626434786937cf7094eb';
+export const AUTOCOMPLETE_API_KEY = '75e563270ba84b0bb064a9f81034f08f';
+export const TIMEOUT_TIME = 10;

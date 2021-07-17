@@ -1,51 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="./src/images/favicon-32x32.png" />
-    <title>SkyWeather - pogoda w twoim mieście</title>
-    <link rel="stylesheet" href="./src/sass/main.scss" />
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="./src/images/favicon-32x32.png" />
+  <title>SkyWeather - pogoda w twoim mieście</title>
+  <link rel="stylesheet" href="./src/sass/main.scss" />
     <script defer src="./src/js/app.js"></script>
-  </head>
-  <body>
-    <div class="recently-searched">
-      <div class="recently-searched__heading">
-        <h5>Ostatnio wyszukiwane</h5>
-        <button class="recently-searched__button">
-          <img
-            src="/src/images/arrow-down.svg"
-            alt="Ostatnio wyszukiwane lokalizacje"
-          />
-        </button>
-      </div>
-      <ul class="hidden recently-searched__list recently-searched__list--moved">
-        <li><a href="">Rzeszów</a></li>
-        <li><a href="">Ropczyce</a></li>
-        <li><a href="">Gdańsk</a></li>
-      </ul>
+
+</head>
+
+<body>
+  <div class="recently-searched">
+    <div class="recently-searched__heading">
+      <h5>Ostatnio wyszukiwane</h5>
+      <button class="recently-searched__button">
+        <img src="/src/images/arrow-down.svg" alt="Ostatnio wyszukiwane lokalizacje" />
+      </button>
     </div>
-    <div id="bg-overlay"></div>
-    <header>
-      <form class="search">
-        <input
-          id="location"
-          type="text"
-          class="search__input"
-          placeholder="Wpisz miejscowość, np. Rzeszów, Strzyżów"
-        />
-        <button class="search__btn">
-          <span class="search__icon"></span>
+    <ul class="hidden recently-searched__list recently-searched__list--moved">
+      <li>Brak lokalizacji</li>
+    </ul>
+  </div>
+  <div id="bg-overlay"></div>
+  <header>
+    <form class="search">
+      <div id="autocomplete" class="autocomplete-container">
+        <div id="location"></div>
+        <button class="autocomplete-container__btn">
+          <span class="autocomplete-container__icon"></span>
           Szukaj
         </button>
-      </form>
-    </header>
+      </div>
+      <!--<input id="search-box" type="text" class="search__input" placeholder="Wpisz miejscowość, np. Rzeszów, Strzyżów" /> 
+       <div id="location"></div>
+      <button class="search__btn">
+        <span class="search__icon"></span>
+        Szukaj
+      </button> -->
+    </form>
+  </header>
 
-    <section class="forecast">
-      <div class="forecast__change-location"></div>
-      <div class="forecast__highlighted">
-        <!-- <h1 class="location">Rzeszów</h1>
+  <section class="forecast">
+    <div class="forecast__change-location"></div>
+    <div class="forecast__highlighted">
+      <!-- <h1 class="location">Rzeszów</h1>
         <div class="today-forecast">
           <div class="today-forecast__date">Sobota, 22.05</div>
           <div class="today-forecast__clock">23:33:06</div>
@@ -89,11 +90,11 @@
             </div>
           </div>
         </div> -->
-      </div>
+    </div>
 
-      <div class="wrapper forecast__desktop">
-        <div class="grid-container">
-          <div class="grid-container__day">
+    <div class="wrapper forecast__desktop">
+      <div class="grid-container hidden">
+        <!-- <div class="grid-container__day">
             <span class="overlay overlay--highlighted hidden">
               <ul class="overlay__data">
                 <li class="overlay__data__humidity">
@@ -108,38 +109,23 @@
                     alt="wind-icon"
                   />43%
                 </li>
+                <li class="overlay__data__drop">
+                  <img
+                    src="src/images/weather-icons/drop.png"
+                    alt="wind-icon"
+                  />43mm
+                </li>
               </ul>
             </span>
             <div class="grid-container__day__weather">
-              <h3 class="grid-container__day__weather__row__date">
+              <h3 class="grid-container__day__weather__date">
                 Sob. 22.05
               </h3>
-              <div class="grid-container__day__weather__row">
-                <img
-                  src="./src/images/weather-icons/cloudyD.png"
-                  alt="claudy-day"
-                />
-                <span>15 &deg;C</span>
-                <img
-                  class="weather-highlighted__weather-icon-drop"
-                  src="src/images/weather-icons/drop.png"
-                  alt="drop prediction"
-                />
-                <span>43%</span>
+              <div>
+                <img class="grid-container__day__weather__icon" src="./src/images/weather-icons/cloudyD.png" alt="Weather_icon">
               </div>
-              <div class="grid-container__day__weather__row">
-                <img
-                  src="./src/images/weather-icons/cloudyN.png"
-                  alt="claudy-night"
-                />
-                <span>3 &deg;C</span>
-                <img
-                  class="weather-highlighted__weather-icon-drop"
-                  src="src/images/weather-icons/drop.png"
-                  alt="drop prediction"
-                />
-                <span>3%</span>
-              </div>
+              <span class="grid-container__day__weather__data">Dzień - 23 &deg;C</span>
+              <span class="grid-container__day__weather__data">Noc - 23 &deg;C</span>
             </div>
           </div>
           <div class="grid-container__day"></div>
@@ -148,13 +134,13 @@
           <div class="grid-container__day"></div>
           <div class="grid-container__day"></div>
           <div class="grid-container__day"></div>
-          <div class="grid-container__day"></div>
-        </div>
+          <div class="grid-container__day"></div> -->
       </div>
+    </div>
 
-      <div class="forecast__mobile">
-        <div class="forecast__mobile__day">
-          <span class="forecast__mobile__day__data forecast__mobile__day__data--higlighted hidden">
+    <div class="forecast__mobile hidden">
+      <!-- <div class="forecast__mobile__day">
+          <span class="forecast__mobile__day__data forecast__mobile__day__data--highlighted hidden">
             <ul>
               <li>
                 <div class="forecast__mobile__weather-pred">
@@ -190,32 +176,27 @@
           </span>
           <div class="forecast__mobile__date">Sobota</div>
          
-          <div class="forecast__mobile__weather-icons">
-            <div class="forecast__mobile__weather">
-              <img
-                class="forecast__mobile__weather-icon"
-                src="src/images/weather-icons/cloudyD.png"
-                alt="weather icon"
-              />
-            </div>
-            <span class="forecast__mobile__weather-icons-separator"></span>
-            <div class="forecast__mobile__weather">
-              <img
-                class="forecast__mobile__weather-icon"
-                src="src/images/weather-icons/cloudyN.png"
-                alt="weather icon"
-              />
-            </div>
+          <div class="forecast__mobile__weather">
+            <img
+              class="forecast__mobile__weather-icon"
+              src="src/images/weather-icons/cloudyD.png"
+              alt="weather icon"
+            />
+          </div> 
+          <div class="forecast__mobile__period">
+            <span>Dzień</span>
+            <span class="forecast__mobile__separator"></span>
+            <span>Noc</span>
           </div>
-          <div class="forecast__mobile__degree-container">
-            <span class="forecast__mobile__degree">15 &deg;C</span>
-            <span class="forecast__mobile__weather-icons-separator"></span>
-            <span class="forecast__mobile__degree">24 &deg;C</span>
-          </div>
+        <div class="forecast__mobile__degree-container">
+          <span class="forecast__mobile__degree">15 &deg;C</span>
+          <span class="forecast__mobile__separator"></span>
+          <span class="forecast__mobile__degree">24 &deg;C</span>
+        </div>
         </div>
 
         <!-- DAY 2 -->
-        <div class="forecast__mobile__day">
+      <!-- <div class="forecast__mobile__day">
           <span class="forecast__mobile__day__data hidden">
             <ul>
               <li>
@@ -252,30 +233,27 @@
           </span>
           <div class="forecast__mobile__date">Sobota</div>
          
-          <div class="forecast__mobile__weather-icons">
             <div class="forecast__mobile__weather">
               <img
                 class="forecast__mobile__weather-icon"
                 src="src/images/weather-icons/cloudyD.png"
                 alt="weather icon"
               />
+            </div> 
+            <div class="forecast__mobile__period">
+              <span>Dzień</span>
+              <span class="forecast__mobile__separator"></span>
+              <span>Noc</span>
             </div>
-            <span class="forecast__mobile__weather-icons-separator"></span>
-            <div class="forecast__mobile__weather">
-              <img
-                class="forecast__mobile__weather-icon"
-                src="src/images/weather-icons/cloudyN.png"
-                alt="weather icon"
-              />
-            </div>
-          </div>
           <div class="forecast__mobile__degree-container">
             <span class="forecast__mobile__degree">15 &deg;C</span>
-            <span class="forecast__mobile__weather-icons-separator"></span>
+            <span class="forecast__mobile__separator"></span>
             <span class="forecast__mobile__degree">24 &deg;C</span>
           </div>
-        </div>
-      </div>
-    </section>
-  </body>
+        </div> -->
+      -->
+    </div>
+  </section>
+</body>
+
 </html>
