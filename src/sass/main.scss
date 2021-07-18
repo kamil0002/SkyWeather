@@ -111,6 +111,10 @@ header {
       padding: 0 2.5rem;
     }
 
+    &:focus {
+      box-shadow: 0 0 6px 1.5px #b4e6fd;
+    }
+
   }
 
 

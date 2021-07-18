@@ -60,12 +60,26 @@ class App {
   }
 
   _changeLocation() {
-    this._generateRecentlySearchedMarkups();
-    desktopDailyWeatherContainer.innerHTML = '';
-    mobileDailyWeatherContainer.innerHTML = '';
-    highlightedWeatherContainer.innerHTML = '';
     weatherContainer.style.display = 'none';
     searchSite.style.display = 'block';
+    this._clearWeatherContainers();
+    if (this.#recentlySearchedData.length > 3) this.#recentlySearchedData.pop();
+
+    const recentLocation = {
+      cityName: this.#locationData.city,
+      cityDetail: applicationData.location,
+      lat: this.#locationData.lat,
+      lon: this.#locationData.lon,
+      id: (Date.now() + '').slice(-10),
+    };
+
+    console.log(this.#recentlySearchedData);
+    console.log(recentLocation);
+    if (this.#recentlySearchedData.some((loc) => loc.cityName == recentLocation.cityName)) return;
+
+    this.#recentlySearchedData.unshift(recentLocation);
+
+    this._generateRecentlySearchedMarkups();
     locationInput.focus();
   }
 
@@ -79,17 +93,20 @@ class App {
     this._generateSpinner();
     if (e.target?.classList.contains('search')) e.preventDefault();
     if (!this.#locationData) return;
-    console.log(this.#locationData);
     this._generateHiglightedWeather(lat, lon);
     this._generateDailyWeather(lat, lon);
     locationInput.value = '';
-    if (this.#recentlySearchedData.length > 3) this.#recentlySearchedData.splice(-1);
-    this.#recentlySearchedData.unshift({
-      cityName: this.#locationData.city,
-      lat: this.#locationData.lat,
-      long: this.#locationData.lon,
-      id: (Date.now() + '').slice(-10),
-    });
+    // const recentLocation = {
+    //   cityName: this.#locationData.city,
+    //   cityDetail: applicationData.location,
+    //   lat: this.#locationData.lat,
+    //   lon: this.#locationData.lon,
+    //   id: (Date.now() + '').slice(-10),
+    // };
+
+    // if (this.#recentlySearchedData.some((loc) => loc.cityName == recentLocation.cityName)) return
+
+    // this.#recentlySearchedData.unshift(recentLocation);
   }
 
   // Recently searched funcitonality
@@ -103,14 +120,23 @@ class App {
   }
 
   _genarateRecentlySearchedWeather(e) {
-    console.log(e.target);
+    this._clearWeatherContainers();
     const location = e.target;
     const locationID = location.dataset.id;
     const locationData = this.#recentlySearchedData.find(
       (loc) => loc.id === locationID
     );
+    console.log('CONFIRMED');
+    console.log(this.#recentlySearchedData);
     console.log(locationData);
+    applicationData.location = locationData?.cityDetail;
     this._generateWeather(locationData.lat, locationData.lon);
+  }
+
+  _clearWeatherContainers() {
+    desktopDailyWeatherContainer.innerHTML = '';
+    mobileDailyWeatherContainer.innerHTML = '';
+    highlightedWeatherContainer.innerHTML = '';
   }
 
   // Get location data functionality
@@ -130,7 +156,6 @@ class App {
       await autocomplete.on('select', (location) => {
         console.log(location);
         applicationData.location = location?.properties.formatted;
-        console.log(applicationData);
         this.#locationData = {
           city: location?.properties.name,
           lat: location?.properties.lat,
@@ -150,7 +175,8 @@ class App {
   async _generateHiglightedWeather(lat, lon) {
     try {
       await loadWeatherData(lat, lon);
-      this.#curWeather = applicationData.curWeather;
+      this.#curWeather = { ...applicationData.curWeather };
+      console.log(this.#curWeather);
 
       const markup = `
     <h1 class="location">${applicationData.location}</h1>
