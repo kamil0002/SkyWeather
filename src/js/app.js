@@ -73,8 +73,6 @@ class App {
       id: (Date.now() + '').slice(-10),
     };
 
-    console.log(this.#recentlySearchedData);
-    console.log(recentLocation);
     if (this.#recentlySearchedData.some((loc) => loc.cityName == recentLocation.cityName)) return;
 
     this.#recentlySearchedData.unshift(recentLocation);
@@ -125,12 +123,10 @@ class App {
     const locationID = location.dataset.id;
     const locationData = this.#recentlySearchedData.find(
       (loc) => loc.id === locationID
-    );
-    console.log('CONFIRMED');
-    console.log(this.#recentlySearchedData);
-    console.log(locationData);
-    applicationData.location = locationData?.cityDetail;
-    this._generateWeather(locationData.lat, locationData.lon);
+      );
+      console.log('Location Data', locationData.lat);
+      applicationData.location = locationData?.cityDetail;
+      this._generateWeather(e, locationData.lat, locationData.lon);
   }
 
   _clearWeatherContainers() {
@@ -142,7 +138,6 @@ class App {
   // Get location data functionality
   async _getEnteredLocationData() {
     try {
-      console.log(weatherContainer);
       const autocomplete = new GeocoderAutocomplete(
         document.getElementById('autocomplete'),
         AUTOCOMPLETE_API_KEY,
@@ -176,7 +171,6 @@ class App {
     try {
       await loadWeatherData(lat, lon);
       this.#curWeather = { ...applicationData.curWeather };
-      console.log(this.#curWeather);
 
       const markup = `
     <h1 class="location">${applicationData.location}</h1>
