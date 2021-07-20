@@ -16,3 +16,14 @@
 // });
 
 // autocomplete.on('suggestions', (suggestions) => {});
+
+// const header = document.querySelector('header');
+// const forecast = document.querySelector('.forecast');
+// const gridContainer = document.querySelector('.grid-container').classList.remove('hidden');
+
+// header.classList.add('hidden');
+// header.style.display = 'none';
+// forecast.classList.remove('hidden');
+// forecast.style.display = 'block';
+
+const hourly = document.querySelector('.hourly-weather').style.display = 'none';

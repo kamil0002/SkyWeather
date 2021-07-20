@@ -6,6 +6,28 @@ $grid-gap: 4rem;
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap');
 @import 'queries';
 
+@include respond(phone) {
+  ::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #b4e6fd;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #0a7183;
+
+  &:hover {
+    background: lighten(#0a7183, 7%);
+  }
+}
+
 ::placeholder {
   color: $color-primary;
   transition: opacity 0.2s;
@@ -35,7 +57,7 @@ $grid-gap: 4rem;
 body {
   width: 100%;
   min-height: 100%;
-  overflow-x: hidden;
+  // overflow-x: hidden;
   box-sizing: border-box;
   font-family: 'Orbitron', sans-serif;
   font-weight: 400;
@@ -53,6 +75,7 @@ html {
   width: 100%;
   min-height: 100%;
   margin: 0;
+  overflow-x: hidden;
 }
 
 .hidden {
@@ -96,12 +119,12 @@ header {
     font-size: 1.8vw;
     padding: 0 6rem;
     height: 5vw;
-    min-height: 5.5rem;
+    min-height: 4rem;
     margin: 0 auto;
     outline: none;
     border: none;
     background: #a0d0d7;
-    border-radius: 100px;
+    border-radius: 8px;
 
     @include respond(tab-port) {
       font-size: 1.7rem;
@@ -113,10 +136,10 @@ header {
 
     &:focus {
       box-shadow: 0 0 6px 1.5px #b4e6fd;
+      border-bottom: 1px solid #b4e6fd;
+      border-radius: 8px 8px 0 0;
     }
-
   }
-
 
   &__btn {
     min-width: 10rem;
@@ -142,6 +165,11 @@ header {
       font-size: 1.9rem;
     }
 
+    @include respond(phone) {
+      width: 11rem;
+      font-size: 1.4rem;
+    }
+
     &:hover {
       transform: scale(1.05);
     }
@@ -149,12 +177,16 @@ header {
   &__icon {
     width: 2.9vw;
     height: 2.9vw;
-    min-width: 3.7rem;
-    min-height: 3.7rem;
+    min-width: 2.5rem;
+    min-height: 2.5rem;
     margin-right: 2.5rem;
     background-image: url('../images/search-icon.svg');
     background-position: center;
     background-size: cover;
+
+    @include respond(phone) {
+      margin-right: 1rem;
+    }
   }
 }
 
@@ -163,6 +195,7 @@ header {
     font-size: 1.5rem;
     background-color: rgba(135, 193, 201, 0.5);
     transform: translateY(-0.7%);
+    border-radius: 0 0 8px 8px;
   }
   &-item {
     color: rgba(0, 0, 0, 0.6);
@@ -221,9 +254,9 @@ header {
     left: 1.5%;
   }
 
-  @include respond(tab-port) {
-    display: none;
-  }
+  // @include respond(tab-port) {
+  //   display: none;
+  // }
 
   &__button {
     transform: translateY(50%);
@@ -232,7 +265,7 @@ header {
     background-color: transparent;
     cursor: pointer;
     position: absolute;
-    right: -12%;
+    right: -15%;
   }
 }
 
@@ -400,14 +433,15 @@ header {
 
   @include respond(tab-port) {
     padding: 3rem 0;
-    transform: translateX(2%);
   }
 
   @include respond(phone) {
     display: grid;
     grid-template-columns: 7fr 0.5fr 7fr;
-    justify-items: center;
-    align-items: center;
+    width: 96vw;
+    // justify-items: center;
+    // align-items: center;
+    margin: 0 auto;
   }
 }
 
@@ -538,7 +572,7 @@ header {
   grid-auto-flow: row;
   grid-gap: $grid-gap;
   justify-content: center;
-  transition: opacity .8s;
+  transition: opacity 0.8s;
 
   @include respond(tab-land) {
     grid-template-columns: repeat(3, minmax(26rem, 29.4rem));
@@ -655,7 +689,7 @@ header {
 .forecast__mobile {
   display: none;
   margin-top: 8rem;
-  transition: opacity .8s;
+  transition: opacity 0.8s;
 
   @include respond(phone) {
     & {
@@ -663,7 +697,7 @@ header {
       display: block;
 
       &__day {
-        padding: .5rem 2rem;
+        padding: 0.5rem 2rem;
         background-color: #a5e2e2;
         display: flex;
         align-items: center;
@@ -690,10 +724,6 @@ header {
 
         &__data {
           font-size: 1.2rem;
-          &--highlighted {
-            transform: translateY(calc(100% + 3px));
-          }
-
           position: absolute;
           bottom: 0;
           left: 0;
@@ -701,18 +731,28 @@ header {
           height: 4rem;
           transform: translateY(100%);
           background: rgba(140, 202, 202, 0.5);
-          display: flex;
-          justify-content: center;
+          display: block;
+
+          &--highlighted {
+            transform: translateY(calc(100% + 3px));
+          }
 
           ul {
             list-style: none;
             display: flex;
-            justify-content: center;
+            justify-content: space-around;
             align-items: center;
-            transform: translateX(-17px);
+            transform: translateX(-0.5rem);
 
             li:not(:last-of-type) {
-              margin-right: 8.5rem;
+              margin-right: 1.5rem;
+            }
+            li:nth-of-type(3) {
+              transform: translateX(-1.5rem);
+            }
+
+            li:not(:first-of-type) {
+              margin-right: 3rem;
             }
           }
         }
@@ -771,6 +811,12 @@ header {
       @include respond(small-phone) {
         display: none;
       }
+      &--small {
+        display: none;
+        @include respond(small-phone) {
+          display: block;
+        }
+      }
     }
 
     &__degree-container {
@@ -805,5 +851,134 @@ header {
 
   100% {
     transform: rotate(360deg);
+  }
+}
+
+.hourly-weather {
+  max-width: 95vw;
+  margin: 7rem auto;
+
+  &__list {
+    display: grid;
+    grid-gap: 0.7rem;
+    justify-content: center;
+    list-style: none;
+    grid-template-columns: repeat(8, min-content);
+
+    @include respond(tab-port) {
+      grid-gap: 0;
+    }
+
+    @include respond(phone) {
+      grid-template-columns: repeat(16, min-content);
+      justify-content: left;
+      overflow-x: scroll;
+      width: 90vw;
+    }
+
+    &__item {
+      width: 13rem;
+      height: 16rem;
+      padding: 8rem 0;
+      background: linear-gradient(
+        to bottom right,
+        rgba(255, 255, 255, 0.35),
+        rgba(221, 221, 221, 0.3)
+      );
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-around;
+
+      @include respond(tab-land) {
+        width: 10rem;
+        height: 12rem;
+        padding: 7rem 0;
+      }
+
+      @include respond(tab-port) {
+        width: 7.3rem;
+        height: 8rem;
+      }
+
+      @include respond(phone) {
+        width: 8rem;
+        height: 9rem;
+        padding: 6.3rem 0;
+      }
+
+      &__time {
+        font-size: 2.3rem;
+
+        @include respond(tab-land) {
+          font-size: 2rem;
+        }
+
+        @include respond(tab-port) {
+          font-size: 1.7rem;
+        }
+      }
+
+      &__degree {
+        font-size: 1.8rem;
+
+        @include respond(tab-land) {
+          font-size: 1.5rem;
+        }
+
+        @include respond(tab-port) {
+          font-size: 1.3rem;
+        }
+      }
+
+      &__drop {
+        display: flex;
+        align-items: center;
+        font-size: 1.5rem;
+        margin-top: 0.5rem;
+
+        @include respond(tab-land) {
+          font-size: 1.2rem;
+        }
+
+        @include respond(tab-port) {
+          font-size: 1.1rem;
+        }
+
+        &-icon {
+          margin-right: 1rem;
+          width: 2.5rem;
+          height: 2.5rem;
+
+          @include respond(tab-land) {
+            width: 2rem;
+            height: 2rem;
+          }
+
+          @include respond(tab-port) {
+            width: 1.7rem;
+            height: 1.7rem;
+          }
+        }
+      }
+
+      &__weather-icon {
+        width: 5em;
+        height: 5rem;
+
+        @include respond(tab-land) {
+          width: 4rem;
+          height: 4rem;
+        }
+      }
+    }
+  }
+}
+
+
+
+@include respond(tab-port) {
+  .hide-recently-searched {
+    display: none;
   }
 }

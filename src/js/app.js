@@ -9,6 +9,7 @@ const recentlySearched = document.querySelector('.recently-searched__list');
 const recentlySearchedBtn = document.querySelector(
   '.recently-searched__button'
 );
+const recentlySerachedContainer = document.querySelector('.recently-searched');
 const changeLocationBtn = document.querySelector('.forecast__change-location');
 const recentlySearchedList = document.querySelector('.recently-searched__list');
 const searchBtn = document.querySelector('.search');
@@ -60,6 +61,7 @@ class App {
   }
 
   _changeLocation() {
+    recentlySerachedContainer.classList.remove('hide-recently-searched');
     weatherContainer.style.display = 'none';
     searchSite.style.display = 'block';
     this._clearWeatherContainers();
@@ -86,6 +88,7 @@ class App {
     lat = this.#locationData.lat,
     lon = this.#locationData.lon
   ) {
+    recentlySerachedContainer.classList.add('hide-recently-searched');
     closeAutocompleteBtn.classList.remove('visible');
     weatherContainer.style.display = 'block';
     this._generateSpinner();
@@ -238,6 +241,7 @@ class App {
       mobileDailyWeatherContainer.classList.remove('hidden');
 
       this.#dailyWeather = applicationData.dailyWeather;
+      console.log(this.#dailyWeather);
       this.#dailyWeather[0].today = true;
       const markupDesktop = this._generateDesktopDailyWeatherMarkup(
         this.#dailyWeather
@@ -315,6 +319,13 @@ class App {
         day.today ? 'forecast__mobile__day__data--highlighted' : ''
       }">
         <ul>
+        <li class="forecast__mobile__weather forecast__mobile__weather--small">
+          <img
+            class="forecast__mobile__weather-icon"
+            src="${icons.weatherIcon[day.icon]}"
+            alt="weather icon"
+          />
+        </li> 
           <li>
             <div class="forecast__mobile__weather-pred">
               <img
@@ -347,7 +358,7 @@ class App {
           </li>
         </ul>
       </span>
-      <div class="forecast__mobile__date">Sobota</div>
+      <div class="forecast__mobile__date">${day.day.dayShortName} ${day.day.numericDate}</div>
      
       <div class="forecast__mobile__weather">
         <img
