@@ -1,11 +1,21 @@
 import { WEATHER_API_KEY } from './config';
 import { timeout } from './helpers.js';
 import { TIMEOUT_TIME } from './config.js';
+import { AUTOCOMPLETE_API_KEY } from './config';
 
 export const applicationData = {
   curWeather: {},
+  // hourlyWeather: {},
   dailyWeather: {},
 };
+
+export const generateCurrentLocation = async function(lat, lon) {
+  const res = await fetch(`https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lon}&lang=de&limit=10&apiKey=${AUTOCOMPLETE_API_KEY}`);
+
+  const data = await res.json();
+
+  return data.features[0].properties.city;
+}
 
 export const loadWeatherData = async function (lat, lon) {
   try {
@@ -17,8 +27,9 @@ export const loadWeatherData = async function (lat, lon) {
     ]);
     const data = await res.json();
     if (data.cod === 401) throw new Error('Problem z załadowaniem danych!');
-    applicationData.curWeather = createCurrentWeatherData(data);
-    applicationData.weather = createDailyWeatherData(data);
+    createCurrentWeatherData(data);
+    createDailyWeatherData(data);
+    createHourlyWeather(data.hourly.slice(0, 16));
   } catch (err) {
     console.log(err);
     throw err;
@@ -37,8 +48,21 @@ const createCurrentWeatherData = function (data) {
   });
 };
 
+const createHourlyWeather = function (data) {
+  console.log(data);
+  applicationData.hourlyWeather = data.map(hour => ({
+
+    h: (new Date(hour.dt * 1000).getHours()).toString().padStart(2, '0'),
+    icon: hour.weather[0].icon,
+    temp: convertToCelsius(hour.temp),
+    rainPOP: hour.pop ? (hour.pop * 100).toFixed(0) : 0
+    
+  }))
+  console.log(applicationData);
+}
+
 const createDailyWeatherData = function (data) {
-  const formattedData = data.daily.map((day) => ({
+  return (applicationData.dailyWeather = data.daily.map((day) => ({
     icon: day.weather[0].icon,
     day: convertToDate(day.dt),
     tempD: convertToCelsius(day.feels_like.day),
@@ -47,8 +71,7 @@ const createDailyWeatherData = function (data) {
     rainPOP: day.pop ? (day.pop * 100).toFixed(0) : 0,
     wind: day.wind_speed,
     humidity: day.humidity,
-  }));
-  return (applicationData.dailyWeather = formattedData);
+  })));
 };
 
 const convertToCelsius = (K) => Math.round(K - 273.15);

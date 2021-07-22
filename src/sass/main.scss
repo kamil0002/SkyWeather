@@ -57,7 +57,6 @@ $grid-gap: 4rem;
 body {
   width: 100%;
   min-height: 100%;
-  // overflow-x: hidden;
   box-sizing: border-box;
   font-family: 'Orbitron', sans-serif;
   font-weight: 400;
@@ -68,6 +67,7 @@ body {
     rgba(135, 193, 201, 0.67) 0%,
     rgba(184, 232, 232, 0.5) 100%
   );
+
 }
 
 html {
@@ -76,13 +76,19 @@ html {
   min-height: 100%;
   margin: 0;
   overflow-x: hidden;
+  position: relative;
 }
 
 .hidden {
   opacity: 0;
 }
 
-#bg-overlay {
+.hide-and-display {
+  display: none;
+  opacity: 0;
+}
+
+.bg-overlay {
   position: fixed;
   top: 0;
   bottom: 0;
@@ -96,10 +102,15 @@ html {
     rgba(255, 255, 255, 0.06) 100%
   );
   backdrop-filter: blur(12px);
+
 }
 
 header {
   padding-top: 25rem;
+
+  @include respond(phone) {
+    padding-top: 15rem;
+  }
 }
 
 .autocomplete-container {
@@ -134,18 +145,16 @@ header {
       padding: 0 2.5rem;
     }
 
-    &:focus {
-      box-shadow: 0 0 6px 1.5px #b4e6fd;
-      border-bottom: 1px solid #b4e6fd;
-      border-radius: 8px 8px 0 0;
-    }
+
+  }   
+  .flat-border {
+    border-radius: 8px 8px 0 0;
   }
 
   &__btn {
-    min-width: 10rem;
-    width: 20vw;
-    color: inherit;
     display: flex;
+    height: inherit;
+    background-color: #a0d0d7;
     justify-content: center;
     align-items: center;
     position: absolute;
@@ -154,38 +163,29 @@ header {
     bottom: 0;
     outline: none;
     border: none;
-    border-radius: 100px;
-    background-color: #a5e2e2;
     font-size: 2.2vw;
-    cursor: pointer;
     transition: transform 0.3s;
+    border-radius: 8px;
 
-    @include respond(tab-port) {
-      width: 15rem;
-      font-size: 1.9rem;
-    }
-
-    @include respond(phone) {
-      width: 11rem;
-      font-size: 1.4rem;
-    }
-
-    &:hover {
-      transform: scale(1.05);
-    }
   }
   &__icon {
     width: 2.9vw;
     height: 2.9vw;
-    min-width: 2.5rem;
-    min-height: 2.5rem;
-    margin-right: 2.5rem;
+    min-width: 3rem;
+    min-height: 3rem;
+    margin-right: 4rem;
     background-image: url('../images/search-icon.svg');
     background-position: center;
     background-size: cover;
+    cursor: pointer;
+    transition: transform .2s;
 
-    @include respond(phone) {
-      margin-right: 1rem;
+    @include respond(tab-port) {
+      margin-right: 1.5rem;
+    }
+
+    &:hover {
+      transform: scale(1.1);
     }
   }
 }
@@ -194,8 +194,11 @@ header {
   &-items {
     font-size: 1.5rem;
     background-color: rgba(135, 193, 201, 0.5);
-    transform: translateY(-0.7%);
+    transform: translateY(41px);
     border-radius: 0 0 8px 8px;
+    border-top: none;
+    box-shadow: none;
+
   }
   &-item {
     color: rgba(0, 0, 0, 0.6);
@@ -203,15 +206,19 @@ header {
 }
 
 .geoapify-close-button {
-  top: 70%;
+  top: 73%;
   z-index: 100;
   color: $color-primary;
+
+  @include respond(tab-port) {
+    top: 85%;
+  }
 }
 
 .recently-searched {
-  position: fixed;
-  top: 2%;
-  left: 2%;
+  position: absolute;
+  top: 1.5%;
+  left: 1.5%;
   font-size: 2.5rem;
 
   &__heading {
@@ -254,9 +261,6 @@ header {
     left: 1.5%;
   }
 
-  // @include respond(tab-port) {
-  //   display: none;
-  // }
 
   &__button {
     transform: translateY(50%);
@@ -268,66 +272,6 @@ header {
     right: -15%;
   }
 }
-
-// .search {
-//   width: 66vw;
-//   margin: 0 auto;
-//   display: flex;
-//   position: relative;
-
-//   &__input {
-//     width: inherit;
-//     color: inherit;
-//     font-size: 1.8vw;
-//     padding: 0 6rem;
-//     height: 5vw;
-//     min-height: 7rem;
-//     margin: 0 auto;
-//     outline: none;
-//     border: none;
-//     background: #a0d0d7;
-//     border-radius: 100px;
-
-//     &:focus::placeholder {
-//       opacity: 0;
-//     }
-//   }
-
-//   &__btn {
-//     min-width: 10rem;
-//     width: 20vw;
-//     color: inherit;
-//     display: flex;
-//     justify-content: center;
-//     align-items: center;
-//     position: absolute;
-//     right: 0;
-//     top: 0;
-//     bottom: 0;
-//     outline: none;
-//     border: none;
-//     border-radius: 100px;
-//     background-color: #a5e2e2;
-//     font-size: 2.2vw;
-//     cursor: pointer;
-//     transition: transform 0.3s;
-
-//     &:hover {
-//       transform: scale(1.05);
-//     }
-//   }
-
-//   &__icon {
-//     width: 2.9vw;
-//     height: 2.9vw;
-//     min-width: 3.7rem;
-//     min-height: 3.7rem;
-//     margin-right: 2.5rem;
-//     background-image: url('../images/search-icon.svg');
-//     background-position: center;
-//     background-size: cover;
-//   }
-// }
 
 /////////////////////////////////////////////////////////////////////
 // FORECAST
@@ -362,14 +306,14 @@ header {
     background-image: url('../images/search-icon-forecast.svg');
     background-size: cover;
     background-position: center;
-    position: fixed;
+    position: absolute;
     top: 1%;
     right: 1%;
     cursor: pointer;
 
     @include respond(phone) {
-      top: 1.2%;
-      right: 1.2%;
+      top: .7%;
+      right: .8%;
       width: 4rem;
       height: 4rem;
     }
@@ -425,7 +369,7 @@ header {
 
 .weather-highlighted-group {
   padding: 2rem 0;
-  transform: translateX(2%);
+  // transform: translateX(2%);
 
   @include respond(tab-land) {
     transform: translateX(3.5%);
@@ -441,7 +385,7 @@ header {
     width: 96vw;
     // justify-items: center;
     // align-items: center;
-    margin: 0 auto;
+    // margin: 0 auto;
   }
 }
 
@@ -693,7 +637,7 @@ header {
 
   @include respond(phone) {
     & {
-      width: 100%;
+      width: 100vw;
       display: block;
 
       &__day {
@@ -718,10 +662,6 @@ header {
           border-bottom: 3px solid $color-primary;
         }
 
-        // &:not(:last-child) {
-        //   margin-bottom: 6rem;
-        // }
-
         &__data {
           font-size: 1.2rem;
           position: absolute;
@@ -731,7 +671,7 @@ header {
           height: 4rem;
           transform: translateY(100%);
           background: rgba(140, 202, 202, 0.5);
-          display: block;
+          display: grid;
 
           &--highlighted {
             transform: translateY(calc(100% + 3px));
@@ -821,11 +761,12 @@ header {
 
     &__degree-container {
       display: flex;
-      width: 11.5rem;
+      width: 10rem;
       justify-content: space-between;
 
       @include respond(small-phone) {
-        width: 9rem;
+        width: 7rem;
+        margin-right: 1rem;
       }
     }
   }
@@ -980,5 +921,48 @@ header {
 @include respond(tab-port) {
   .hide-recently-searched {
     display: none;
+  }
+}
+
+
+.your-location {
+  width: 66vw;
+  max-height: 44px;
+  color: rgba(0, 0, 0, 0.6);
+  margin: 0 auto;
+  text-align: left;
+  padding: 10px;
+  font-size: 1.5rem;
+  background-color: rgba(135, 193, 201, 0.5);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  // border-bottom: none;
+  border-top: none;
+
+
+  @include respond(tab-port) {
+    width:85vw;
+  }
+  
+  &:hover {
+    background-color: #96bec3;
+    cursor: pointer;
+  }
+
+  svg {
+    margin-right: 1rem;
+  }
+
+}
+
+footer {
+  position: absolute;
+  bottom: .5%;
+  right: 1%;
+  font-size: 1.2rem;
+  color: rgb(0, 0, 0);
+
+  a:link, a:visited{
+    text-decoration: none;
+    color: inherit;
   }
 }

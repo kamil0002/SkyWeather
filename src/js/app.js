@@ -2,6 +2,7 @@ import { AUTOCOMPLETE_API_KEY } from './config';
 import { GeocoderAutocomplete } from '@geoapify/geocoder-autocomplete';
 import { applicationData } from './outsideData';
 import { loadWeatherData } from './outsideData';
+import { generateCurrentLocation } from './outsideData';
 import icons from './iconsGenerator';
 import spinner from 'url:../images/spinner.svg';
 
@@ -9,6 +10,8 @@ const recentlySearched = document.querySelector('.recently-searched__list');
 const recentlySearchedBtn = document.querySelector(
   '.recently-searched__button'
 );
+const body = document.querySelector('body');
+const yourLoc = document.querySelector('.your-location');
 const recentlySerachedContainer = document.querySelector('.recently-searched');
 const changeLocationBtn = document.querySelector('.forecast__change-location');
 const recentlySearchedList = document.querySelector('.recently-searched__list');
@@ -19,6 +22,7 @@ const mobileDailyWeatherContainer = document.querySelector('.forecast__mobile');
 const highlightedWeatherContainer = document.querySelector(
   '.forecast__highlighted'
 );
+const hourlyWeatherContainer = document.querySelector('.hourly-weather__list');
 const weatherContainer = document.querySelector('.forecast');
 
 // let overlay;
@@ -29,12 +33,14 @@ let closeAutocompleteBtn;
 
 class App {
   #curWeather;
+  #hourlyWeather;
   #dailyWeather;
   #locationData;
   #recentlySearchedData = [];
 
   constructor() {
     this._getEnteredLocationData();
+    this._getLocalStorage();
 
     recentlySearchedBtn.addEventListener(
       'click',
@@ -58,6 +64,31 @@ class App {
       'click',
       this._genarateRecentlySearchedWeather.bind(this)
     );
+
+    body.addEventListener('click', (e) => {
+      if (
+        e.target.classList.contains('header') ||
+        e.target.classList.contains('bg-overlay')
+      ) {
+        yourLoc.classList.add('hide-and-display');
+        locationInput?.classList.remove('flat-border');
+        closeAutocompleteBtn?.classList.remove('visible');
+      }
+    });
+    // localStorage.clear();
+    yourLoc.addEventListener('click', this._getCurrentLocation.bind(this));
+  }
+
+  // LOCAL STORAGE STOR
+  _setLocalStorage(location) {
+    localStorage.setItem('locations', JSON.stringify(location));
+  }
+
+  _getLocalStorage() {
+    const data = JSON.parse(localStorage.getItem('locations'));
+    if (!data) return;
+    this.#recentlySearchedData = data;
+    this._generateRecentlySearchedMarkups();
   }
 
   _changeLocation() {
@@ -65,22 +96,47 @@ class App {
     weatherContainer.style.display = 'none';
     searchSite.style.display = 'block';
     this._clearWeatherContainers();
+    this._generateRecentlySearchedMarkups();
+    // if (this.#recentlySearchedData.length > 3) this.#recentlySearchedData.pop();
+
+    // const recentLocation = {
+    //   cityName: this.#locationData?.city,
+    //   cityDetail: applicationData.location,
+    //   lat: this.#locationData?.lat,
+    //   lon: this.#locationData?.lon,
+    //   id: (Date.now() + '').slice(-10),
+    // };
+
+    // if (this.#recentlySearchedData.some((loc) => loc.cityName == recentLocation.cityName)) return;
+
+    // this.#recentlySearchedData.unshift(recentLocation);
+    // this._setLocalStorage(this.#recentlySearchedData);
+
+    // this._generateRecentlySearchedMarkups();
+    locationInput?.focus();
+  }
+
+  _saveRecentLocation() {
     if (this.#recentlySearchedData.length > 3) this.#recentlySearchedData.pop();
 
     const recentLocation = {
-      cityName: this.#locationData.city,
+      cityName: this.#locationData?.city,
       cityDetail: applicationData.location,
-      lat: this.#locationData.lat,
-      lon: this.#locationData.lon,
+      lat: this.#locationData?.lat,
+      lon: this.#locationData?.lon,
       id: (Date.now() + '').slice(-10),
     };
 
-    if (this.#recentlySearchedData.some((loc) => loc.cityName == recentLocation.cityName)) return;
+    if (
+      this.#recentlySearchedData.some(
+        (loc) => loc.cityName == recentLocation.cityName
+      )
+    )
+      return;
 
     this.#recentlySearchedData.unshift(recentLocation);
+    this._setLocalStorage(this.#recentlySearchedData);
 
-    this._generateRecentlySearchedMarkups();
-    locationInput.focus();
   }
 
   _generateWeather(
@@ -89,13 +145,16 @@ class App {
     lon = this.#locationData.lon
   ) {
     recentlySerachedContainer.classList.add('hide-recently-searched');
-    closeAutocompleteBtn.classList.remove('visible');
+    closeAutocompleteBtn?.classList?.remove('visible'); // IMP!
     weatherContainer.style.display = 'block';
     this._generateSpinner();
     if (e.target?.classList.contains('search')) e.preventDefault();
-    if (!this.#locationData) return;
+    console.log(this.#locationData);
+    // if (!this.#locationData) return;
+    if (!lat && !lon) return;
     this._generateHiglightedWeather(lat, lon);
     this._generateDailyWeather(lat, lon);
+    this._generateHourlyWeahter(lat, lon);
     locationInput.value = '';
     // const recentLocation = {
     //   cityName: this.#locationData.city,
@@ -108,6 +167,33 @@ class App {
     // if (this.#recentlySearchedData.some((loc) => loc.cityName == recentLocation.cityName)) return
 
     // this.#recentlySearchedData.unshift(recentLocation);
+    this._saveRecentLocation();
+  }
+
+  // Curr location
+  _getCurrentLocation() {
+    navigator.geolocation.getCurrentPosition(
+      async (loc) => {
+        console.log(loc);
+
+        this.#locationData = {
+          lat: loc.coords.latitude,
+          lon: loc.coords.longitude,
+        };
+        this.#locationData.city = await generateCurrentLocation(
+          this.#locationData.lat,
+          this.#locationData.lon
+        );
+        locationInput.value = this.#locationData?.city;
+        applicationData.location = this.#locationData.city;
+        closeAutocompleteBtn.classList.remove('visible');
+        yourLoc.classList.add('hide-and-display');
+      },
+      () => {
+        alert(`Nie udało się załadować lokalizacji! 🧨🧨`);
+      }
+    );
+    locationInput.focus();
   }
 
   // Recently searched funcitonality
@@ -123,19 +209,21 @@ class App {
   _genarateRecentlySearchedWeather(e) {
     this._clearWeatherContainers();
     const location = e.target;
+    console.log(location);
     const locationID = location.dataset.id;
     const locationData = this.#recentlySearchedData.find(
       (loc) => loc.id === locationID
-      );
-      console.log('Location Data', locationData.lat);
-      applicationData.location = locationData?.cityDetail;
-      this._generateWeather(e, locationData.lat, locationData.lon);
+    );
+    console.log(this.#recentlySearchedData);
+    applicationData.location = locationData?.cityDetail;
+    this._generateWeather(e, locationData.lat, locationData.lon);
   }
 
   _clearWeatherContainers() {
     desktopDailyWeatherContainer.innerHTML = '';
     mobileDailyWeatherContainer.innerHTML = '';
     highlightedWeatherContainer.innerHTML = '';
+    hourlyWeatherContainer.innerHTML = '';
   }
 
   // Get location data functionality
@@ -159,12 +247,23 @@ class App {
           lat: location?.properties.lat,
           lon: location?.properties.lon,
         };
-        locationInput = document.querySelector('.geoapify-autocomplete-input');
-        closeAutocompleteBtn = document.querySelector('.geoapify-close-button');
+        console.log(this.#locationData);
+        // locationInput = document.querySelector('.geoapify-autocomplete-input');
+
+        yourLoc.classList.add('hide-and-display');
+        locationInput.classList.remove('flat-border');
+        closeAutocompleteBtn.classList.remove('visible');
         locationInput.focus();
       });
 
-      autocomplete.on('suggestions', (suggestions) => {});
+      autocomplete.on('suggestions', (suggestions) => {
+        console.log(suggestions);
+
+        closeAutocompleteBtn = document.querySelector('.geoapify-close-button');
+        locationInput = document.querySelector('.geoapify-autocomplete-input');
+        locationInput.classList.add('flat-border');
+        yourLoc.classList.remove('hide-and-display');
+      });
     } catch (err) {
       throw err;
     }
@@ -174,6 +273,8 @@ class App {
     try {
       await loadWeatherData(lat, lon);
       this.#curWeather = { ...applicationData.curWeather };
+      console.log(this.#curWeather);
+      console.log(spinnerEl);
 
       const markup = `
     <h1 class="location">${applicationData.location}</h1>
@@ -224,11 +325,23 @@ class App {
     </div>
     `;
 
-      this._hideSpinner();
+      this._removeSpinner();
       highlightedWeatherContainer.insertAdjacentHTML('afterbegin', markup);
 
       clock = document.querySelector('.today-forecast__clock');
       this._generateClock();
+    } catch (err) {
+      console.error(err.message);
+    }
+  }
+
+  async _generateHourlyWeahter(lat, lon) {
+    try {
+      await loadWeatherData(lat, lon);
+      hourlyWeatherContainer.classList.remove('hidden');
+      this.#hourlyWeather = applicationData.hourlyWeather;
+      const markupH = this._generateHourlyWeahterMarkup(this.#hourlyWeather);
+      hourlyWeatherContainer.insertAdjacentHTML('afterbegin', markupH);
     } catch (err) {
       console.error(err.message);
     }
@@ -262,6 +375,28 @@ class App {
     } catch (err) {
       console.error(err.message);
     }
+  }
+
+  _generateHourlyWeahterMarkup(data) {
+    return data
+      .map((hour) => {
+        return `
+      <li class="hourly-weather__list__item">
+      <span class="hourly-weather__list__item__time">${hour.h}:00</span>
+      <img class="hourly-weather__list__item__weather-icon" src="${
+        icons.weatherIcon[hour.icon]
+      }"" alt="">
+      <span class="hourly-weather__list__item__degree">${hour.temp}°C</span>
+      <span class="hourly-weather__list__item__drop">
+        <img class="hourly-weather__list__item__drop-icon" src="${
+          icons.drop
+        }" alt="Drop">
+        ${hour.rainPOP}%
+      </span>
+    </li>
+      `;
+      })
+      .join('');
   }
 
   _generateDesktopDailyWeatherMarkup(data) {
@@ -358,7 +493,9 @@ class App {
           </li>
         </ul>
       </span>
-      <div class="forecast__mobile__date">${day.day.dayShortName} ${day.day.numericDate}</div>
+      <div class="forecast__mobile__date">${day.day.dayShortName} ${
+          day.day.numericDate
+        }</div>
      
       <div class="forecast__mobile__weather">
         <img
@@ -422,8 +559,8 @@ class App {
     spinnerEl = document.querySelector('.spinner');
   }
 
-  _hideSpinner() {
-    spinnerEl.style.display = 'none';
+  _removeSpinner() {
+    weatherContainer.removeChild(spinnerEl);
   }
 }
 

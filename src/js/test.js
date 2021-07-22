@@ -26,4 +26,4 @@
 // forecast.classList.remove('hidden');
 // forecast.style.display = 'block';
 
-const hourly = document.querySelector('.hourly-weather').style.display = 'none';
+// const hourly = document.querySelector('.hourly-weather').style.display = 'none';
