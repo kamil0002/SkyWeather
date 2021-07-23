@@ -39,6 +39,7 @@ class App {
   #recentlySearchedData = [];
 
   constructor() {
+    // localStorage.clear()
     this._getEnteredLocationData();
     this._getLocalStorage();
 
@@ -130,7 +131,7 @@ class App {
     if (
       this.#recentlySearchedData.some(
         (loc) => loc.cityName == recentLocation.cityName
-      )
+      ) || !recentLocation.cityName
     )
       return;
 
@@ -155,7 +156,8 @@ class App {
     this._generateHiglightedWeather(lat, lon);
     this._generateDailyWeather(lat, lon);
     this._generateHourlyWeahter(lat, lon);
-    locationInput.value = '';
+    console.log(locationInput);
+    if(locationInput) locationInput.value = '';
     // const recentLocation = {
     //   cityName: this.#locationData.city,
     //   cityDetail: applicationData.location,
@@ -201,9 +203,9 @@ class App {
     console.log(this.#recentlySearchedData);
     recentlySearchedList.innerHTML = '';
     const location = this.#recentlySearchedData
-      .map((loc) => `<li data-id='${loc.id}'>${loc.cityName} </li>`)
+      .map((loc) => `<li data-id='${loc.id}'>${loc.cityName ? loc.cityName : 'Nieznane'} </li>`)
       .join('');
-    recentlySearchedList.insertAdjacentHTML('afterbegin', location);
+    recentlySearchedList.insertAdjacentHTML('beforeend', location);
   }
 
   _genarateRecentlySearchedWeather(e) {
@@ -542,6 +544,7 @@ class App {
   }
 
   _showRecentlySearchedLoc() {
+    recentlySearched.style.display = 'block';
     recentlySearched.classList.toggle('hidden');
     recentlySearched.classList.toggle('recently-searched__list--moved');
   }
