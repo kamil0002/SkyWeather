@@ -1,10 +1,10 @@
-$color-primary: #fff;
+$text-color-primary: #fff;
 $grid-gap: 4rem;
 
+@import 'queries';
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap');
 @import '@geoapify/geocoder-autocomplete/styles/minimal.css';
 @import '@geoapify/geocoder-autocomplete/styles/round-borders.css';
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap');
-@import 'queries';
 
 @include respond(phone) {
   ::-webkit-scrollbar {
@@ -29,7 +29,7 @@ $grid-gap: 4rem;
 }
 
 ::placeholder {
-  color: $color-primary;
+  color: $text-color-primary;
   transition: opacity 0.2s;
   font-size: 1.8vw;
 
@@ -44,6 +44,16 @@ $grid-gap: 4rem;
 
 ::selection {
   background-color: rgba(70, 90, 95, 0.7);
+}
+
+@include respond(tab-port) {
+  .hide-recently-searched {
+    display: none;
+  }
+}
+
+.hidden {
+  opacity: 0;
 }
 
 *,
@@ -61,13 +71,12 @@ body {
   font-family: 'Orbitron', sans-serif;
   font-weight: 400;
   line-height: 1.6;
-  color: $color-primary;
+  color: $text-color-primary;
   background: linear-gradient(
     116.82deg,
     rgba(135, 193, 201, 0.67) 0%,
     rgba(184, 232, 232, 0.5) 100%
   );
-
 }
 
 html {
@@ -79,12 +88,8 @@ html {
   position: relative;
 }
 
-.hidden {
-  opacity: 0;
-}
-
 .hide-and-display {
-  display: none;
+  display: none !important;
   opacity: 0;
 }
 
@@ -102,14 +107,13 @@ html {
     rgba(255, 255, 255, 0.06) 100%
   );
   backdrop-filter: blur(12px);
-
 }
 
 header {
   padding-top: 25rem;
 
   @include respond(phone) {
-    padding-top: 15rem;
+    padding-top: 20rem;
   }
 }
 
@@ -144,9 +148,7 @@ header {
     @include respond(phone) {
       padding: 0 2.5rem;
     }
-
-
-  }   
+  }
   .flat-border {
     border-radius: 8px 8px 0 0;
   }
@@ -166,7 +168,6 @@ header {
     font-size: 2.2vw;
     transition: transform 0.3s;
     border-radius: 8px;
-
   }
   &__icon {
     width: 2.9vw;
@@ -178,7 +179,7 @@ header {
     background-position: center;
     background-size: cover;
     cursor: pointer;
-    transition: transform .2s;
+    transition: transform 0.2s;
 
     @include respond(tab-port) {
       margin-right: 1.5rem;
@@ -198,17 +199,42 @@ header {
     border-radius: 0 0 8px 8px;
     border-top: none;
     box-shadow: none;
-
   }
   &-item {
     color: rgba(0, 0, 0, 0.6);
   }
 }
 
+.your-location {
+  width: 66vw;
+  max-height: 44px;
+  color: rgba(0, 0, 0, 0.6);
+  margin: 0 auto;
+  text-align: left;
+  padding: 10px;
+  font-size: 1.5rem;
+  background-color: rgba(135, 193, 201, 0.5);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-top: none;
+
+  @include respond(tab-port) {
+    width: 85vw;
+  }
+
+  &:hover {
+    background-color: #96bec3;
+    cursor: pointer;
+  }
+
+  svg {
+    margin-right: 1rem;
+  }
+}
+
 .geoapify-close-button {
   top: 73%;
   z-index: 100;
-  color: $color-primary;
+  color: $text-color-primary;
 
   @include respond(tab-port) {
     top: 85%;
@@ -220,6 +246,7 @@ header {
   top: 1%;
   left: 1.5%;
   font-size: 2.5rem;
+  z-index: 10000;
 
   &__heading {
     display: grid;
@@ -261,7 +288,6 @@ header {
     top: 1.5%;
     left: 1.5%;
   }
-
 
   &__button {
     transform: translateY(50%);
@@ -313,8 +339,8 @@ header {
     cursor: pointer;
 
     @include respond(phone) {
-      top: .7%;
-      right: .8%;
+      top: 0.7%;
+      right: 0.8%;
       width: 4rem;
       height: 4rem;
     }
@@ -370,7 +396,6 @@ header {
 
 .weather-highlighted-group {
   padding: 2rem 0;
-  // transform: translateX(2%);
 
   @include respond(tab-land) {
     transform: translateX(3.5%);
@@ -384,9 +409,6 @@ header {
     display: grid;
     grid-template-columns: 7fr 0.5fr 7fr;
     width: 96vw;
-    // justify-items: center;
-    // align-items: center;
-    // margin: 0 auto;
   }
 }
 
@@ -537,7 +559,7 @@ header {
     position: relative;
 
     &:nth-of-type(1) {
-      border: 5px solid $color-primary;
+      border: 5px solid $text-color-primary;
     }
 
     &:nth-of-type(8),
@@ -659,8 +681,8 @@ header {
         }
 
         &:first-child {
-          border-top: 3px solid $color-primary;
-          border-bottom: 3px solid $color-primary;
+          border-top: 3px solid $text-color-primary;
+          border-bottom: 3px solid $text-color-primary;
         }
 
         &__data {
@@ -726,7 +748,7 @@ header {
       height: 25px;
       border-radius: 5px;
       transform: rotateZ(20deg);
-      background: $color-primary;
+      background: $text-color-primary;
 
       @include respond(small-phone) {
         width: 2px;
@@ -770,29 +792,6 @@ header {
         margin-right: 1rem;
       }
     }
-  }
-}
-
-.spinner {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  text-align: center;
-
-  svg {
-    height: 6rem;
-    width: 6rem;
-    fill: #a0d0d7;
-    animation: rotate 2s infinite linear;
-  }
-}
-@keyframes rotate {
-  0% {
-    transform: rotate(0);
-  }
-
-  100% {
-    transform: rotate(360deg);
   }
 }
 
@@ -917,53 +916,50 @@ header {
   }
 }
 
-
-
-@include respond(tab-port) {
-  .hide-recently-searched {
-    display: none;
-  }
-}
-
-
-.your-location {
-  width: 66vw;
-  max-height: 44px;
-  color: rgba(0, 0, 0, 0.6);
-  margin: 0 auto;
-  text-align: left;
-  padding: 10px;
-  font-size: 1.5rem;
-  background-color: rgba(135, 193, 201, 0.5);
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  // border-bottom: none;
-  border-top: none;
-
-
-  @include respond(tab-port) {
-    width:85vw;
-  }
-  
-  &:hover {
-    background-color: #96bec3;
-    cursor: pointer;
-  }
+.spinner {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  text-align: center;
 
   svg {
-    margin-right: 1rem;
+    height: 6rem;
+    width: 6rem;
+    fill: #a0d0d7;
+    animation: rotate 2s infinite linear;
+  }
+}
+@keyframes rotate {
+  0% {
+    transform: rotate(0);
   }
 
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 footer {
   position: absolute;
-  bottom: .5%;
+  bottom: 0.5%;
   right: 1%;
   font-size: 1.2rem;
   color: rgb(0, 0, 0);
 
-  a:link, a:visited{
+  a:link,
+  a:visited {
     text-decoration: none;
     color: inherit;
   }
+}
+
+.error {
+  font-size: 2rem;
+  font-weight: 700;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #db1c1c;
+  width: 100vw;
+  height: 100vh;
 }

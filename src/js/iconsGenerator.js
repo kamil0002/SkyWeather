@@ -1,3 +1,5 @@
+import spinner from 'url:../images/spinner.svg';
+
 import drop from 'url:../images/weather-icons/drop.png';
 import wind from 'url:../images/weather-icons/wind.png';
 import humidity from 'url:../images/weather-icons/humidity.png';
@@ -16,6 +18,7 @@ import cloudyN from 'url:../images/weather-icons/cloudyN.png';
 import rainyN from 'url:../images/weather-icons/rainyN.png';
 
 export default icons = {
+  spinner,
   drop,
   wind,
   humidity,

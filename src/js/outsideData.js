@@ -1,20 +1,21 @@
 import { WEATHER_API_KEY } from './config';
+import { AUTOCOMPLETE_API_KEY } from './config';
 import { timeout } from './helpers.js';
 import { TIMEOUT_TIME } from './config.js';
-import { AUTOCOMPLETE_API_KEY } from './config';
 
-export const applicationData = {
-  curWeather: {},
-  // hourlyWeather: {},
-  dailyWeather: {},
-};
+export const applicationData = {};
 
 export const generateCurrentLocation = async function(lat, lon) {
-  const res = await fetch(`https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lon}&lang=de&limit=10&apiKey=${AUTOCOMPLETE_API_KEY}`);
+  try {
+    const res = await fetch(`https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lon}&lang=de&limit=10&apiKey=${AUTOCOMPLETE_API_KEY}`);
 
-  const data = await res.json();
+    const data = await res.json();
+  
+    return data.features[0].properties.city;
+  } catch(err) {
+    throw err;
+  }
 
-  return data.features[0].properties.city;
 }
 
 export const loadWeatherData = async function (lat, lon) {
@@ -31,7 +32,6 @@ export const loadWeatherData = async function (lat, lon) {
     createDailyWeatherData(data);
     createHourlyWeather(data.hourly.slice(0, 16));
   } catch (err) {
-    console.log(err);
     throw err;
   }
 };
@@ -41,7 +41,6 @@ const createCurrentWeatherData = function (data) {
     icon: data.current.weather[0].icon,
     curDay: convertToDate(data.current.dt),
     curTemp: convertToCelsius(data.current.temp),
-    // curRain: Object.values(data.current.rain)[0],
     curRain: data.daily[0].rain ? data.daily[0].rain.toFixed(1) : 0,
     curWind: data.current.wind_speed ? data.current.wind_speed.toFixed(1) : 0,
     curHumidity: data.current.humidity,
@@ -49,8 +48,7 @@ const createCurrentWeatherData = function (data) {
 };
 
 const createHourlyWeather = function (data) {
-  console.log(data);
-  applicationData.hourlyWeather = data.map(hour => ({
+  return applicationData.hourlyWeather = data.map(hour => ({
 
     h: (new Date(hour.dt * 1000).getHours()).toString().padStart(2, '0'),
     icon: hour.weather[0].icon,
@@ -58,7 +56,6 @@ const createHourlyWeather = function (data) {
     rainPOP: hour.pop ? (hour.pop * 100).toFixed(0) : 0
     
   }))
-  console.log(applicationData);
 }
 
 const createDailyWeatherData = function (data) {
@@ -67,7 +64,6 @@ const createDailyWeatherData = function (data) {
     day: convertToDate(day.dt),
     tempD: convertToCelsius(day.feels_like.day),
     tempN: convertToCelsius(day.feels_like.night),
-    // rain: day.rain ? day.rain : 0,
     rainPOP: day.pop ? (day.pop * 100).toFixed(0) : 0,
     wind: day.wind_speed,
     humidity: day.humidity,
@@ -75,6 +71,8 @@ const createDailyWeatherData = function (data) {
 };
 
 const convertToCelsius = (K) => Math.round(K - 273.15);
+
+
 const convertToDate = function (ts) {
   const date = new Date(ts * 1000);
   const numericDate = new Intl.DateTimeFormat(navigator.language)
