@@ -5,6 +5,9 @@ import { loadWeatherData } from './outsideData';
 import { generateCurrentLocation } from './outsideData';
 import { generateMarkup } from './markupsGenerator';
 
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
+
 const searchBtn = document.querySelector('.search');
 const recentlySearched = document.querySelector('.recently-searched__list');
 const changeLocationBtn = document.querySelector('.forecast__change-location');
@@ -71,9 +74,10 @@ class App {
     );
 
     body.addEventListener('click', (e) => {
+      const clickedEl = e.target;
       if (
-        e.target.classList.contains('header') ||
-        e.target.classList.contains('bg-overlay')
+        clickedEl.classList.contains('header') ||
+        clickedEl.classList.contains('bg-overlay')
       ) {
         yourLoc.classList.add('hide-and-display');
         locationInput?.classList.remove('flat-border');
@@ -126,7 +130,6 @@ class App {
     this.#recentlySearchedData.unshift(recentLocation);
     this._setLocalStorage(this.#recentlySearchedData);
   }
-
 
   // Display weather
   _generateWeather(
@@ -237,7 +240,6 @@ class App {
       });
 
       autocomplete.on('suggestions', (suggestions) => {
-
         closeAutocompleteBtn = document.querySelector('.geoapify-close-button');
         locationInput = document.querySelector('.geoapify-autocomplete-input');
         locationInput.classList.add('flat-border');
@@ -256,9 +258,7 @@ class App {
       await loadWeatherData(lat, lon);
       this.#curWeather = { ...applicationData.curWeather };
 
-      const markup = generateMarkup.highlightedWeather(
-        this.#curWeather
-      );
+      const markup = generateMarkup.highlightedWeather(this.#curWeather);
 
       this._removeSpinner();
       highlightedWeatherContainer.insertAdjacentHTML('afterbegin', markup);
@@ -271,7 +271,6 @@ class App {
       weatherContainer.style.display = 'none';
       error.classList.remove('hide-and-display');
       error.textContent = this.#errorMsg;
-      
     }
   }
 
@@ -302,7 +301,9 @@ class App {
       const markupDesktop = generateMarkup.desktopDailyWeather(
         this.#dailyWeather
       );
-      const markupMobile = generateMarkup.mobileDailyWeather(this.#dailyWeather);
+      const markupMobile = generateMarkup.mobileDailyWeather(
+        this.#dailyWeather
+      );
       desktopDailyWeatherContainer.insertAdjacentHTML(
         'afterbegin',
         markupDesktop
@@ -322,15 +323,24 @@ class App {
   }
 
   _showMoreWeatherData(e) {
-    const daySquare = e.target.closest('.overlay');
-    if (!daySquare) return;
-    daySquare.classList.remove('hidden');
+
+    // hoverMeHand.classList.remove('hover-me');
+    const overlaySquare = e.target.closest('.overlay');
+    if (!overlaySquare) return;
+    overlaySquare.classList.remove('hidden');
+
+
+    const daySquare = e.target.closest('.grid-container__day');
+    const hoverMeHand = document.querySelector('.hover-me');
+    if(!hoverMeHand) return;
+    daySquare.removeChild(hoverMeHand);
+
   }
 
   _hideMoreWeatherData(e) {
-    const daySquare = e.target.closest('.overlay');
-    if (!daySquare) return;
-    daySquare.classList.add('hidden');
+    const overlaySquare = e.target.closest('.overlay');
+    if (!overlaySquare) return;
+    overlaySquare.classList.add('hidden');
   }
 
   _generateClock() {

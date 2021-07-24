@@ -77,9 +77,12 @@ generateMarkup.hourlyWeahter= function(data) {
 }
 
 generateMarkup.desktopDailyWeather = function (data) {
+  let handCounter = 0;
   return data
     .map((day) => {
+      handCounter++;
       return `<div class="grid-container__day">
+      ${handCounter === 1 ? '<span class="hover-me"></span>' : ''}
   <span class="overlay ${day.today ? 'overlay--highlighted' : ''} hidden">
     <ul class="overlay__data">
       <li class="overlay__data__humidity">

@@ -674,6 +674,10 @@ header {
         width: 100%;
         margin-bottom: 6rem;
 
+        &:last-of-type {
+          margin-bottom: 10rem;
+        }
+
         @include respond(small-phone) {
           font-size: 1.2rem;
 
@@ -815,6 +819,8 @@ header {
       justify-content: left;
       overflow-x: scroll;
       width: 90vw;
+      box-shadow: 12px 0 8px -4px rgba(162, 184, 190, 0.5),
+        -12px 0 8px -4px rgba(162, 184, 190, 0.5);
     }
 
     &__item {
@@ -962,4 +968,25 @@ footer {
   color: #db1c1c;
   width: 100vw;
   height: 100vh;
+}
+
+.hover-me {
+  background-image: url('../images/hover-me.png');
+  background-size: cover;
+  background-position: center;
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  right: 10%;
+  top: 40%;
+  animation: moveHand linear 1.5s infinite;
+}
+
+@keyframes moveHand {
+  from {
+    transform: rotate(0deg) translateX(6px) rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg) translateX(6px) rotate(-360deg);
+  }
 }
