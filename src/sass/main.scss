@@ -3,8 +3,8 @@ $grid-gap: 4rem;
 
 @import 'queries';
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap');
-@import '@geoapify/geocoder-autocomplete/styles/minimal.css';
-@import '@geoapify/geocoder-autocomplete/styles/round-borders.css';
+@import './../../node_modules/@geoapify/geocoder-autocomplete/styles/minimal.css';
+@import './../../node_modules/@geoapify/geocoder-autocomplete/styles/round-borders.css';
 
 @include respond(phone) {
   ::-webkit-scrollbar {

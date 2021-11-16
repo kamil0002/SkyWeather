@@ -7,7 +7,7 @@ export const applicationData = {};
 
 export const generateCurrentLocation = async function(lat, lon) {
   try {
-    const res = await fetch(`https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lon}&lang=de&limit=10&apiKey=${AUTOCOMPLETE_API_KEY}`);
+    const res = await fetch(`https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lon}&lang=pl&limit=10&apiKey=${AUTOCOMPLETE_API_KEY}`);
 
     const data = await res.json();
   

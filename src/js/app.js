@@ -5,8 +5,8 @@ import { loadWeatherData } from './outsideData';
 import { generateCurrentLocation } from './outsideData';
 import { generateMarkup } from './markupsGenerator';
 
-import 'core-js/stable';
-import 'regenerator-runtime/runtime';
+// import 'core-js/stable';
+// import 'regenerator-runtime/runtime';
 
 const searchBtn = document.querySelector('.search');
 const recentlySearched = document.querySelector('.recently-searched__list');
@@ -155,6 +155,7 @@ class App {
     navigator.geolocation.getCurrentPosition(
       async (loc) => {
         try {
+          console.log(loc);
           this.#locationData = {
             lat: loc.coords.latitude,
             lon: loc.coords.longitude,
